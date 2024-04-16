@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "./../../assets/images/logo.png";
 import mobileLogo from "./../../assets/images/mobileLogo.png";
 import mobileLogoWhite from "./../../assets/images/mobileLogoWhite.png";
@@ -8,36 +8,29 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import DarkModeSwitcher from "../ui/DarkModeSwitcher";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useEffect, useRef, useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { useRef, useState } from "react";
+// import { FaUserCircle } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 const Header = () => {
   const { theme } = useSelector((state: RootState) => state.theme);
   const [mobileHeaderIsOpen, setMobileHeaderIsOpen] = useState(false);
   const [profileDropdownIsOpen, setProfileDropdownIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const profileButtonRef = useRef<HTMLButtonElement | null>(null);
+  const mobileProfileButtonRef = useRef<HTMLButtonElement | null>(null);
+  const { pathname } = useLocation();
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
+  useOutsideClick(
+    [dropdownRef, profileButtonRef, mobileProfileButtonRef],
+    () => {
       setProfileDropdownIsOpen(false);
-    } else {
-      setProfileDropdownIsOpen(true);
     }
-  };
-
-  useEffect(() => {
-    window.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      window.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  );
 
   return (
-    <div className="flex items-center justify-between py-8 px-4 md:py-4 md:px-3 relative w-full md:text-sm">
+    <div className="flex items-center justify-between py-8 xl:px-4 md:py-4 md:px-3 relative w-full md:text-sm">
       <div>
         <img
           className="md:hidden"
@@ -53,13 +46,25 @@ const Header = () => {
 
       {/* nav */}
       <ul className="flex gap-4 md:hidden">
-        <li>
+        <li
+          className={`border-b border-transparent pb-1 hover:border-white ${
+            pathname === "/" && "border-white"
+          }`}
+        >
           <Link to={"/"}>Home</Link>
         </li>
-        <li>
+        <li
+          className={`border-b border-transparent pb-1 hover:border-white ${
+            pathname === "/posts" && "border-white"
+          }`}
+        >
           <Link to={"/"}>All Posts</Link>
         </li>
-        <li>
+        <li
+          className={`border-b border-transparent pb-1 hover:border-white ${
+            pathname === "/contact" && "border-white"
+          }`}
+        >
           <Link to={"/"}>Contact</Link>
         </li>
       </ul>
@@ -79,11 +84,21 @@ const Header = () => {
 
         <DarkModeSwitcher />
 
-        <button
-          onClick={() => setProfileDropdownIsOpen((currState) => !currState)}
+        {/* <button
+          ref={profileButtonRef}
+          onClick={() => {
+            setProfileDropdownIsOpen((currState) => !currState);
+          }}
         >
-          <FaUserCircle className="h-7 w-7" />
-        </button>
+          <FaUserCircle className="h-7 w-7 pointer-events-none" />
+        </button> */}
+        <Link
+          to={"/"}
+          className="border dark:border-zinc-600 border-gray-300 py-1 px-2 rounded
+           hover:dark:bg-white hover:dark:text-zinc-700 transition-all duration-300 hover:bg-dark-gray-tint hover:text-white "
+        >
+          Sign in
+        </Link>
       </div>
 
       <div className="items-center gap-4 hidden md:flex">
@@ -92,11 +107,19 @@ const Header = () => {
         >
           <RxHamburgerMenu className="h-7 w-7" />
         </button>
-        <button
+        {/* <button
+          ref={mobileProfileButtonRef}
           onClick={() => setProfileDropdownIsOpen((currState) => !currState)}
         >
           <FaUserCircle className="h-7 w-7" />
-        </button>
+        </button> */}
+        <Link
+          to={"/"}
+          className="border dark:border-zinc-600 border-gray-300 py-1 px-2 rounded
+           hover:dark:bg-white hover:dark:text-zinc-700 transition-all duration-300 hover:bg-dark-gray-tint hover:text-white "
+        >
+          Sign in
+        </Link>
       </div>
 
       <AnimatePresence>
