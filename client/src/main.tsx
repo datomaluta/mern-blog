@@ -6,14 +6,19 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import ThemeProvider from "./components/sharedComponents/ThemeProvider.tsx";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <PersistGate persistor={persistor}>
     <Provider store={store}>
       <BrowserRouter>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
+        </QueryClientProvider>
       </BrowserRouter>{" "}
     </Provider>
   </PersistGate>

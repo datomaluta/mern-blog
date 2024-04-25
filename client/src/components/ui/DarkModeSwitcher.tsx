@@ -11,7 +11,7 @@ const DarkModeSwitcher = ({ className }: { className?: string }) => {
     <button
       onClick={() => dispatch(toggleTheme())}
       className={`w-12 h-7 shrink-0 rounded-full py-[2px] block px-[3px] ${
-        theme === "light" ? "bg-zinc-200" : "bg-dark-gray-tint"
+        theme === "light" ? "bg-zinc-300" : "bg-dark-gray-tint"
       } transition-all duration-300 ${className}`}
     >
       <div

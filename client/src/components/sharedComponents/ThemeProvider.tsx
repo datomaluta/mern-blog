@@ -8,7 +8,6 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     <div className={theme}>
       <div className="bg-white text-zinc-700 dark:text-white dark:bg-dark-gray min-h-screen">
         {children}
-        
       </div>
     </div>
   );
