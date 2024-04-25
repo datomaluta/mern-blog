@@ -1,11 +1,10 @@
-import { LuUser } from "react-icons/lu";
 import signupImage from "./../assets/images/signupImage.png";
 import { MdOutlineEmail } from "react-icons/md";
-import { CiLock, CiUnlock } from "react-icons/ci";
+import { CiUnlock } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { signup } from "../services/auth";
-import { useForm, useWatch } from "react-hook-form";
+import { signin } from "../services/auth";
+import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { ImSpinner3 } from "react-icons/im";
 import { Alert } from "flowbite-react";
@@ -14,7 +13,7 @@ import { getObjectLength } from "../helpers/objectFunctions";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../redux/user/userSlice";
 
-const Signup = () => {
+const SignIn = () => {
   const [formErrors, setFormErrors] = useState<any[]>([]);
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
@@ -24,18 +23,12 @@ const Signup = () => {
     register,
     formState: { errors },
     handleSubmit,
-    control,
-    setError,
   } = useForm({ mode: "onSubmit" });
   const errorsLength = getObjectLength(errors);
 
-  const passwordInput = useWatch({ name: "password", control });
-  const passwordConfirmInput = useWatch({ name: "passwordConfirm", control });
-
-  const { mutate: signupMutation, isLoading: signupLoading } = useMutation({
-    mutationFn: signup,
+  const { mutate: signinMutation, isLoading: signinLoading } = useMutation({
+    mutationFn: signin,
     onSuccess: (response) => {
-      console.log(response);
       navigate("/");
       dispatch(saveUserInfo(response?.data?.data?.user));
     },
@@ -43,20 +36,13 @@ const Signup = () => {
       if (err?.response?.data?.message) {
         setApiError(err.response.data.message);
       } else {
-        setApiError("Sign up failed, Something went wrong!");
+        setApiError("Sign in failed, Something went wrong!");
       }
     },
   });
 
   const submitHandler = async (data: any) => {
-    if (passwordInput !== passwordConfirmInput) {
-      setError("passwordConfirm", {
-        type: "custom",
-        message: "Passwords does not match",
-      });
-    } else {
-      signupMutation(data);
-    }
+    signinMutation(data);
   };
 
   useEffect(() => {
@@ -78,24 +64,11 @@ const Signup = () => {
           />
         </div>
         <div className=" w-1/2 p-4 md:w-full">
-          <h1 className="text-2xl text-center mb-6">Sign up</h1>
+          <h1 className="text-2xl text-center mb-6">Sign in</h1>
           <form
             onSubmit={handleSubmit(submitHandler)}
             className="flex flex-col gap-6 items-center justify-center mb-4"
           >
-            <div className="relative max-w-80 sm:max-w-full w-full">
-              <LuUser className="icon-of-input" />
-              <input
-                {...register("username", {
-                  required: "Field is required",
-                })}
-                className="input-with-no-bg pl-10"
-                type="text"
-                placeholder="Enter your username"
-              />
-            </div>
-            {/* <p>{errors && errors["username"]?.message}</p> */}
-
             <div className="relative max-w-80 sm:max-w-full w-full">
               <MdOutlineEmail className="icon-of-input" />
               <input
@@ -111,7 +84,6 @@ const Signup = () => {
                 placeholder="Enter your email"
               />
             </div>
-            {/* <p>{errors && errors["email"]?.message}</p> */}
 
             <div className="relative max-w-80 sm:max-w-full w-full">
               <CiUnlock className="icon-of-input" />
@@ -125,33 +97,17 @@ const Signup = () => {
                 })}
                 className="input-with-no-bg pl-10"
                 type="password"
-                placeholder="Create password"
+                placeholder="Enter your password"
               />
             </div>
-            {/* <p>{errors && errors["password"]?.message}</p> */}
 
-            <div className="relative max-w-80 sm:max-w-full w-full">
-              <CiLock className="icon-of-input" />
-              <input
-                {...register("passwordConfirm", {
-                  required: "Field is required",
-                  minLength: {
-                    value: 4,
-                    message: "Password minimum length is 4",
-                  },
-                })}
-                className="input-with-no-bg pl-10"
-                type="password"
-                placeholder="Confirm password"
-              />
-            </div>
             {/* <p>{errors && errors["passwordConfirm"]?.message}</p> */}
 
             <button className="submit-button ">
-              {signupLoading ? (
+              {signinLoading ? (
                 <ImSpinner3 className="animate-spin text-xl" />
               ) : (
-                "Sign up"
+                "Sign in"
               )}
             </button>
           </form>
@@ -187,7 +143,7 @@ const Signup = () => {
             ""
           )}
           <p className="text-center mt-8 dark:text-zinc-400 text-sm">
-            Or sign up with
+            Or sign in with
           </p>
 
           <button className="flex gap-2 items-center border border-zinc-300 dark:border-zinc-600 p-2 rounded-lg mx-auto mt-3 hover:bg-dark-gray hover:dark:bg-dark-gray-shade hover:text-white hover: transition-all">
@@ -196,9 +152,9 @@ const Signup = () => {
           </button>
 
           <p className="dark:text-zinc-400 text-sm text-center mt-7 flex gap-2 justify-center">
-            Already have an account?{" "}
-            <Link to={"/signin"} className="dark:text-white underline">
-              Sign in
+            Don't have an account?
+            <Link to={"/signup"} className="dark:text-white underline">
+              Sign up
             </Link>
           </p>
         </div>
@@ -207,4 +163,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignIn;

@@ -75,10 +75,10 @@ userSchema.pre(/^find/, function (next) {
 
 // static method to check if passwords is same for password updating
 userSchema.methods.correctPassword = async function (
-  candidatepassword,
+  candidatePassword,
   userPassword
 ) {
-  return await bcrypt.compare(candidatepassword, userPassword);
+  return await bcrypt.compare(candidatePassword, userPassword);
 };
 
 // static method for after password change actions

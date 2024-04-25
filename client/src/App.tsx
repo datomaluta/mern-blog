@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Header from "./components/sharedComponents/Header";
 import Layout from "./components/sharedComponents/Layout";
+import SignIn from "./pages/SignIn";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/signIn" element={<SignIn />} />
           <Route path="/dashboard" element={<div>test reason</div>} />
         </Routes>
       </Layout>

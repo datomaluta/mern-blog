@@ -114,7 +114,7 @@ const Header = () => {
             </button>
           ) : (
             <Link
-              to={"/"}
+              to={"/signin"}
               className="border dark:border-zinc-600 border-gray-300 py-1 px-2 rounded-lg
            hover:dark:bg-white hover:dark:text-zinc-700 transition-all duration-300 hover:bg-dark-gray-tint hover:text-white "
             >
