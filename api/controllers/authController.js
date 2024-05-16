@@ -3,6 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const AppError = require("../utils/appError");
+const { promisify } = require("util");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -17,8 +18,9 @@ const createSendToken = (user, statusCode, req, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httponly: true,
-    secure: req.secure || req.headers["x-forwarded-photo"] === "https",
+    httpOnly: true,
+    // sameSite: "None",
+    // secure: false,
   });
 
   user.password = undefined;
@@ -32,13 +34,14 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    photo: "/images/avatar.jpg",
+    photo: "/avatar.jpg",
   });
 
   createSendToken(newUser, 201, req, res);
 });
 
 exports.signin = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   // 1) Extract email and password from body
   const { email, password } = req.body;
 
@@ -55,5 +58,89 @@ exports.signin = catchAsync(async (req, res, next) => {
   }
 
   // 4) if Everithing is okay, send token to client
+  createSendToken(user, 200, req, res);
+});
+
+// exports.logout = (req, res) => {
+//   res.cookie("jwt", "loggedout", {
+//     expires: new Date(Date.now() + 10 * 1000),
+//     httponly: true,
+//   });
+//   res.status(200).json({ status: "success" });
+// };
+
+exports.logout = (req, res) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: "success" });
+};
+
+exports.protect = catchAsync(async (req, res, next) => {
+  // 1) Getting token and check of it's there
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
+  // console.log(req.cookies);
+  // console.log("THIS IS TOKEN ", token);
+
+  if (!token) {
+    return next(
+      new AppError("You are not logged in! please log in to get access", 401)
+    );
+  }
+
+  // 2) Verification token
+  // console.log("decoded");
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  // console.log(decoded);
+
+  // 3) Check if user still exists
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
+    return next(
+      new AppError("The user belonging to this token does no longer exist", 401)
+    );
+  }
+
+  // 4) Check if user changed password after the token was issued
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError(
+        "User recently changed password! Please log in in again",
+        401
+      )
+    );
+  }
+
+  // Grant access to protected route
+  req.user = currentUser;
+  res.locals.user = currentUser;
+  next();
+});
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  // 1) Get user from collection
+  console.log(req.body);
+  const user = await User.findById(req.user.id).select("+password");
+
+  // 2) Chech if posted current password is correct
+  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
+    return next(new AppError("Your current password is wrong", 401));
+  }
+
+  // 3) If so, update password
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+
+  // 4) Log user in, send JWT
   createSendToken(user, 200, req, res);
 });

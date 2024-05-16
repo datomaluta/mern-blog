@@ -1,6 +1,19 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "http://127.0.0.1:3000/api",
-  headers: { "Content-Type": "application/json" },
+  baseURL: "http://localhost:5173/api",
+  // baseURL: "http://localhost:3000",
+  headers: {
+    "Content-Type": "application/json",
+    // "Content-Type": "multipart/form-data",
+  },
+});
+
+export const instanceForMultipart = axios.create({
+  baseURL: "http://localhost:5173/api",
+  // baseURL: "http://localhost:3000",
+  headers: {
+    // "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
+  },
 });

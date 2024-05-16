@@ -147,7 +147,7 @@ const Signup = () => {
             </div>
             {/* <p>{errors && errors["passwordConfirm"]?.message}</p> */}
 
-            <button className="submit-button ">
+            <button className="submit-button  max-w-80">
               {signupLoading ? (
                 <ImSpinner3 className="animate-spin text-xl" />
               ) : (

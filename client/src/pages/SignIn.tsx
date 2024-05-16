@@ -43,6 +43,31 @@ const SignIn = () => {
 
   const submitHandler = async (data: any) => {
     signinMutation(data);
+
+    // try {
+    //   const res = await fetch("/api/users/signin", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(data),
+    //   });
+    //   const data2 = await res.json();
+    //   // console.log(data2);
+    //   if (data2.status === "fail") {
+    //     console.log("ae");
+    //     setApiError(data2.message);
+    //     // console.log("WHAAAT");
+    //     // console.log(data2.message);
+    //     // setApiError(data2.message);
+    //   }
+
+    //   if (res.ok) {
+    //     console.log("YEEESSS");
+    //     dispatch(saveUserInfo(data2?.data?.user));
+    //     navigate("/");
+    //   }
+    // } catch (error: any) {
+    //   console.log("OOOH NOOO");
+    // }
   };
 
   useEffect(() => {
@@ -103,7 +128,7 @@ const SignIn = () => {
 
             {/* <p>{errors && errors["passwordConfirm"]?.message}</p> */}
 
-            <button className="submit-button ">
+            <button className="submit-button  max-w-80">
               {signinLoading ? (
                 <ImSpinner3 className="animate-spin text-xl" />
               ) : (

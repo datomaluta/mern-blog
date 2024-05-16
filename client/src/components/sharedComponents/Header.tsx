@@ -23,7 +23,6 @@ const Header = () => {
   const { pathname } = useLocation();
 
   const { currentUser } = useSelector((state: RootState) => state.user);
-  console.log(currentUser);
 
   useOutsideClick([dropdownRef, profileButtonRef], () => {
     if (window.innerWidth > 800) setProfileDropdownIsOpen(false);
@@ -33,10 +32,16 @@ const Header = () => {
     if (window.innerWidth < 800) setProfileDropdownIsOpen(false);
   });
 
+  // const { refetch: logout } = useQuery({
+  //   queryKey: ["logout"],
+  //   queryFn: signout,
+  //   enabled: false,
+  // });
+
   // console.log(`${import.meta.env.API_URL}/${currentUser.photo}`);
 
   return (
-    <div className="dark:bg-dark-gray-shade bg-gray-200 sticky top-0 1 py-6  md:py-4 ">
+    <div className="dark:bg-dark-gray-shade bg-gray-200 sticky top-0 1 py-6  md:py-4 z-50">
       <div
         className={`flex items-center  relative justify-between xl:px-4 md:px-3 w-full 
        md:text-sm  ${
@@ -106,7 +111,7 @@ const Header = () => {
             >
               <img
                 className="w-8 h-8 rounded-full"
-                src={`${import.meta.env.VITE_API_BASE_URL}/${
+                src={`${import.meta.env.VITE_API_BASE_URL}/images/${
                   currentUser.photo
                 }`}
                 alt=""
@@ -201,24 +206,27 @@ const Header = () => {
               className="dark:bg-gray-800 bg-white-shade absolute -bottom-6 md:-bottom-4  translate-y-full right-0 md:w-[12rem] w-[14rem] rounded overflow-hidden"
             >
               <div className="border-b border-zinc-300 px-2 py-3 flex flex-col gap-1">
-                <p>dmaluta</p>
-                <p className="truncate">datomaluta@gmail.com</p>
+                <p>{currentUser?.username}</p>
+                <p className="truncate">{currentUser?.email}</p>
               </div>
               <div className="border-b border-zinc-300 px-2 py-3 flex flex-col gap-2">
                 <Link
                   className="dark:hover:bg-gray-500 hover:bg-gray-300 rounded"
-                  to={"/"}
+                  to={"/dashboard"}
                 >
                   Dashboard
                 </Link>
                 <Link
                   className="dark:hover:bg-gray-500 hover:bg-gray-300 rounded"
-                  to={"/"}
+                  to={"/dashboard/profile?tab=general"}
                 >
                   Profile
                 </Link>
               </div>
-              <button className="px-2 py-3 dark:hover:bg-gray-500 hover:bg-gray-300 block w-full text-left">
+              <button
+                // onClick={() => logout()}
+                className="px-2 py-3 dark:hover:bg-gray-500 hover:bg-gray-300 block w-full text-left"
+              >
                 Sign out
               </button>
             </div>

@@ -26,10 +26,15 @@ const app = express();
 // app.use(express.static("public"));
 // app.use("/images", express.static("images"));
 
-app.enable("trust proxy");
+// app.enable("trust proxy");
 
-app.use(cors());
-app.options("*", cors());
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: "http://localhost:5173",
+//   })
+// );
+// app.options("*", cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
