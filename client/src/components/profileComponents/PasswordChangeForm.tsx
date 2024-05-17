@@ -37,7 +37,7 @@ const PasswordChangeForm = () => {
   return (
     <form
       onSubmit={handleSubmit(submitHandler)}
-      className="flex flex-col gap-6 mt-10 p-4"
+      className="flex flex-col gap-6 mt-10 p-4 pb-8"
     >
       <div>
         <label htmlFor="" className="mb-2 block">

@@ -4,7 +4,7 @@ import mobileLogo from "./../../assets/images/mobileLogo.png";
 import mobileLogoWhite from "./../../assets/images/mobileLogoWhite.png";
 import whitelogo from "./../../assets/images/whitelogo.png";
 import { IoIosSearch, IoMdClose } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import DarkModeSwitcher from "../ui/DarkModeSwitcher";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -12,6 +12,10 @@ import { useRef, useState } from "react";
 // import { FaUserCircle } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import useOutsideClick from "../../hooks/useOutsideClick";
+import { useQuery } from "react-query";
+import { signout } from "../../services/auth";
+import { saveUserInfo } from "../../redux/user/userSlice";
+import { ImSpinner3 } from "react-icons/im";
 
 const Header = () => {
   const { theme } = useSelector((state: RootState) => state.theme);
@@ -21,6 +25,7 @@ const Header = () => {
   const profileButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileProfileButtonRef = useRef<HTMLButtonElement | null>(null);
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
 
   const { currentUser } = useSelector((state: RootState) => state.user);
 
@@ -32,13 +37,16 @@ const Header = () => {
     if (window.innerWidth < 800) setProfileDropdownIsOpen(false);
   });
 
-  // const { refetch: logout } = useQuery({
-  //   queryKey: ["logout"],
-  //   queryFn: signout,
-  //   enabled: false,
-  // });
-
-  // console.log(`${import.meta.env.API_URL}/${currentUser.photo}`);
+  const { refetch: logout, isLoading: logoutLoading } = useQuery({
+    queryKey: ["logout"],
+    queryFn: signout,
+    onSuccess: () => {
+      dispatch(saveUserInfo(null));
+      setMobileHeaderIsOpen(false);
+      setProfileDropdownIsOpen(false);
+    },
+    enabled: false,
+  });
 
   return (
     <div className="dark:bg-dark-gray-shade bg-gray-200 sticky top-0 1 py-6  md:py-4 z-50">
@@ -110,7 +118,7 @@ const Header = () => {
               }}
             >
               <img
-                className="w-8 h-8 rounded-full"
+                className="w-9 h-9 rounded-full border-2 border-dark-gray-tint"
                 src={`${import.meta.env.VITE_API_BASE_URL}/images/${
                   currentUser.photo
                 }`}
@@ -147,7 +155,7 @@ const Header = () => {
             >
               <img
                 className="w-8 h-8 rounded-full"
-                src={`${import.meta.env.VITE_API_BASE_URL}/${
+                src={`${import.meta.env.VITE_API_BASE_URL}/images/${
                   currentUser.photo
                 }`}
                 alt=""
@@ -155,7 +163,7 @@ const Header = () => {
             </button>
           ) : (
             <Link
-              to={"/"}
+              to={"/signin"}
               className="border dark:border-zinc-600 border-gray-300 py-1 px-2 rounded-lg
            hover:dark:bg-white hover:dark:text-zinc-700 transition-all duration-300 hover:bg-dark-gray-tint hover:text-white "
             >
@@ -213,21 +221,30 @@ const Header = () => {
                 <Link
                   className="dark:hover:bg-gray-500 hover:bg-gray-300 rounded"
                   to={"/dashboard"}
+                  onClick={() => {
+                    setMobileHeaderIsOpen(false);
+                    setProfileDropdownIsOpen(false);
+                  }}
                 >
                   Dashboard
                 </Link>
                 <Link
                   className="dark:hover:bg-gray-500 hover:bg-gray-300 rounded"
                   to={"/dashboard/profile?tab=general"}
+                  onClick={() => {
+                    setMobileHeaderIsOpen(false);
+                    setProfileDropdownIsOpen(false);
+                  }}
                 >
                   Profile
                 </Link>
               </div>
               <button
-                // onClick={() => logout()}
-                className="px-2 py-3 dark:hover:bg-gray-500 hover:bg-gray-300 block w-full text-left"
+                onClick={() => logout()}
+                className="px-2 py-3 dark:hover:bg-gray-500 hover:bg-gray-300  w-full text-left flex items-center gap-2"
               >
                 Sign out
+                {logoutLoading && <ImSpinner3 className="animate-spin" />}
               </button>
             </div>
           )}

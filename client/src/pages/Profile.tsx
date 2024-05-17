@@ -9,8 +9,8 @@ const Profile = () => {
 
   return (
     <DashboardLayout>
-      <div className="border border-zinc-500 rounded max-w-2xl">
-        <div className="flex gap-4 p-3">
+      <div className="border border-zinc-500 rounded max-w-2xl mb-20">
+        <div className="flex gap-4 p-3 ">
           <Link
             to={"/dashboard/profile?tab=general"}
             className={`${

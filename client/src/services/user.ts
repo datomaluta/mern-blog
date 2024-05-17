@@ -1,10 +1,6 @@
 import { instance, instanceForMultipart } from "./axios";
 
-export const updateMe = (data: {
-  username: string;
-  email: string;
-  photo: any;
-}) => {
+export const updateMe = (data: FormData) => {
   return instanceForMultipart.put(`/users/updateMe`, data);
 };
 

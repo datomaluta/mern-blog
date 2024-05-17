@@ -7,6 +7,7 @@ import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
 import Posts from "./pages/Posts";
 import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./components/sharedComponents/ProtectedRoute";
 
 function App() {
   return (
@@ -17,9 +18,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/signIn" element={<SignIn />} />
-          <Route path="/dashboard/profile" element={<Profile />} />
-          <Route path="/dashboard/posts" element={<Posts />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard/profile" element={<Profile />} />
+            <Route path="/dashboard/posts" element={<Posts />} />
+          </Route>
         </Routes>
       </Layout>
     </div>
