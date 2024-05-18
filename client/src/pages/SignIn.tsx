@@ -128,7 +128,7 @@ const SignIn = () => {
 
             {/* <p>{errors && errors["passwordConfirm"]?.message}</p> */}
 
-            <button className="submit-button  max-w-80">
+            <button className="submit-button  max-w-80 sm:max-w-full">
               {signinLoading ? (
                 <ImSpinner3 className="animate-spin text-xl" />
               ) : (

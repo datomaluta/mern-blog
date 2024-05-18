@@ -1,7 +1,5 @@
-import DashboardLayout from "../components/sharedComponents/DashboardLayout";
-
 const Post = () => {
-  return <DashboardLayout>posts</DashboardLayout>;
+  return <div>posts</div>;
 };
 
 export default Post;
