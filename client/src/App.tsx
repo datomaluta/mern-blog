@@ -9,6 +9,7 @@ import Posts from "./pages/Posts";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/sharedComponents/ProtectedRoute";
 import DashboardLayout from "./components/sharedComponents/DashboardLayout";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route
+            path="/reset-password/:resetToken"
+            element={<ResetPassword />}
+          />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardLayout />}>

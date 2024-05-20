@@ -170,7 +170,8 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     await sendEmail({
       email: user.email,
       subject: "Your password reset token (valid for 10 min)",
-      message,
+      // message,
+      html: `<a href="${process.env.CLIENT_URL}/reset-password/${resetToken}">hello</a>`,
     });
 
     res.status(200).json({

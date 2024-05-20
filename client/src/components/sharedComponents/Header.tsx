@@ -49,7 +49,7 @@ const Header = () => {
   });
 
   return (
-    <div className="dark:bg-dark-gray-shade bg-gray-200 sticky top-0 1 py-6  md:py-4 z-50">
+    <div className="dark:bg-dark-gray-shade bg-gray-200 sticky top-0 1 py-6  md:py-4 z-30">
       <div
         className={`flex items-center  relative justify-between xl:px-4 md:px-3 w-full 
        md:text-sm  ${

@@ -12,12 +12,17 @@ import { useEffect, useState } from "react";
 import { getObjectLength } from "../helpers/objectFunctions";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../redux/user/userSlice";
+import ForgotPasswordForm from "../components/signinComponents/ForgotPasswordForm";
+import ModalWrapper from "../components/uiComponents/ModalWrapper";
+import { AnimatePresence } from "framer-motion";
 
 const SignIn = () => {
   const [formErrors, setFormErrors] = useState<any[]>([]);
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [forgotPasswordModalIsOpen, setForgotPasswordModalIsOpen] =
+    useState(false);
 
   const {
     register,
@@ -43,31 +48,6 @@ const SignIn = () => {
 
   const submitHandler = async (data: any) => {
     signinMutation(data);
-
-    // try {
-    //   const res = await fetch("/api/users/signin", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(data),
-    //   });
-    //   const data2 = await res.json();
-    //   // console.log(data2);
-    //   if (data2.status === "fail") {
-    //     console.log("ae");
-    //     setApiError(data2.message);
-    //     // console.log("WHAAAT");
-    //     // console.log(data2.message);
-    //     // setApiError(data2.message);
-    //   }
-
-    //   if (res.ok) {
-    //     console.log("YEEESSS");
-    //     dispatch(saveUserInfo(data2?.data?.user));
-    //     navigate("/");
-    //   }
-    // } catch (error: any) {
-    //   console.log("OOOH NOOO");
-    // }
   };
 
   useEffect(() => {
@@ -80,6 +60,14 @@ const SignIn = () => {
 
   return (
     <div>
+      <AnimatePresence>
+        {forgotPasswordModalIsOpen && (
+          <ModalWrapper setModalIsVisible={setForgotPasswordModalIsOpen}>
+            <h1 className="text-center text-lg mb-6">Forgot your password?</h1>
+            <ForgotPasswordForm setModalIsOpen={setForgotPasswordModalIsOpen} />
+          </ModalWrapper>
+        )}
+      </AnimatePresence>
       <div className="w-3/4 lg:w-full md:w-full mx-auto flex gap-4 mt-10 sm:mt-4">
         <div className="w-1/2 md:hidden transition-all mt-32">
           <img
@@ -128,6 +116,13 @@ const SignIn = () => {
 
             {/* <p>{errors && errors["passwordConfirm"]?.message}</p> */}
 
+            <button
+              type="button"
+              className="text-gray-500 underline text-right"
+              onClick={() => setForgotPasswordModalIsOpen(true)}
+            >
+              Forgot password?
+            </button>
             <button className="submit-button  max-w-80 sm:max-w-full">
               {signinLoading ? (
                 <ImSpinner3 className="animate-spin text-xl" />
