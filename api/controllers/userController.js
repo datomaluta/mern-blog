@@ -3,7 +3,7 @@ const multer = require("multer");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const sharp = require("sharp");
-const path = require("path"); // Import the path module
+const path = require("path"); 
 const fs = require("fs");
 
 const multerStorage = multer.memoryStorage();

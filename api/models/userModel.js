@@ -50,6 +50,13 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.virtual("imageUrl").get(function () {
+  return `${process.env.API_URL}/images/${this.photo}`;
+});
+
+userSchema.set("toJSON", { virtuals: true });
+userSchema.set("toObject", { virtuals: true });
+
 // this middleware happens before user save and it hashes password (only when password field is modified)
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

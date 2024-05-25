@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 
 const userRouter = require("./routes/userRoutes");
+const postRouter = require("./routes/postRoutes");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 
@@ -50,6 +51,7 @@ app.listen(3000, () => {
 // app.post("/webhook-checkout", bodyParser.raw({ type: "application/json" }));
 
 app.use("/api/users", userRouter);
+app.use("/api/post", postRouter);
 app.get("/api/test", (req, res) => {
   res.json({ message: "API is working!" });
 });
