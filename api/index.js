@@ -51,7 +51,7 @@ app.listen(3000, () => {
 // app.post("/webhook-checkout", bodyParser.raw({ type: "application/json" }));
 
 app.use("/api/users", userRouter);
-app.use("/api/post", postRouter);
+app.use("/api/posts", postRouter);
 app.get("/api/test", (req, res) => {
   res.json({ message: "API is working!" });
 });

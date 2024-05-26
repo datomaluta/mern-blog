@@ -92,10 +92,11 @@ const GeneralUserForm = () => {
       <div className="flex flex-col gap-4 mx-auto">
         <img
           className="w-32 h-32 rounded-full object-cover"
-          src={
-            imgPreview ||
-            `${import.meta.env.VITE_API_BASE_URL}/images/${currentUser?.photo}`
-          }
+          // src={
+          //   imgPreview ||
+          //   `${import.meta.env.VITE_API_BASE_URL}/images/${currentUser?.photo}`
+          // }
+          src={imgPreview || currentUser?.imageUrl}
           alt="photo"
         />
         <input

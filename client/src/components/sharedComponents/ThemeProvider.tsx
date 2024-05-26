@@ -6,7 +6,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   const { theme } = useSelector((state: RootState) => state.theme);
   return (
     <div className={theme}>
-      <div className="bg-white text-zinc-700 dark:text-white dark:bg-dark-gray min-h-screen">
+      <div className="bg-white text-dark-gray dark:text-white dark:bg-dark-gray min-h-screen">
         {children}
       </div>
     </div>

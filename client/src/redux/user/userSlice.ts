@@ -5,6 +5,7 @@ type currentUserType = {
   username: string;
   email: string;
   role: string;
+  imageUrl: string;
 };
 
 const initialState: { currentUser: currentUserType | null } = {

@@ -14,6 +14,11 @@ export default {
         "dark-gray-tint": "#242535",
         "dark-gray-shade": "#141624",
         "white-shade": "#E8E8EA",
+        "light-purple": "#4B6BFB",
+      },
+      boxShadow: {
+        "all-sides":
+          "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 -4px 6px -1px rgba(0, 0, 0, 0.1)", // Custom shadow on all sides
       },
     },
     screens: {

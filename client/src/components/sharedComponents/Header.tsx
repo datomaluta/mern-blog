@@ -119,10 +119,11 @@ const Header = () => {
             >
               <img
                 className="w-9 h-9 rounded-full border-2 border-dark-gray-tint"
-                src={`${import.meta.env.VITE_API_BASE_URL}/images/${
-                  currentUser.photo
-                }`}
-                alt=""
+                // src={`${import.meta.env.VITE_API_BASE_URL}/images/${
+                //   currentUser.photo
+                // }`}
+                src={currentUser?.imageUrl}
+                alt="avatar"
               />
             </button>
           ) : (
@@ -155,10 +156,11 @@ const Header = () => {
             >
               <img
                 className="w-8 h-8 rounded-full"
-                src={`${import.meta.env.VITE_API_BASE_URL}/images/${
-                  currentUser.photo
-                }`}
-                alt=""
+                // src={`${import.meta.env.VITE_API_BASE_URL}/images/${
+                //   currentUser.photo
+                // }`}
+                src={currentUser?.imageUrl}
+                alt="avatar"
               />
             </button>
           ) : (

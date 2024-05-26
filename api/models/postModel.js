@@ -51,6 +51,18 @@ postSchema.pre("findOneAndUpdate", function (next) {
   next();
 });
 
+postSchema.virtual("imageUrl").get(function () {
+  return `${process.env.API_URL}/images/${this.image}`;
+});
+
+postSchema.set("toJSON", { virtuals: true });
+postSchema.set("toObject", { virtuals: true });
+
+postSchema.pre(/^find/, function (next) {
+  this.populate("user");
+  next();
+});
+
 const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;
