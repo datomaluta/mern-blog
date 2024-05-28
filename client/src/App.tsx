@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/sharedComponents/ProtectedRoute";
 import DashboardLayout from "./components/sharedComponents/DashboardLayout";
 import ResetPassword from "./pages/ResetPassword";
+import Footer from "./components/sharedComponents/Footer";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           </Route>
         </Routes>
       </Layout>
+      <Footer />
     </div>
   );
 }

@@ -15,6 +15,7 @@ export default {
         "dark-gray-shade": "#141624",
         "white-shade": "#E8E8EA",
         "light-purple": "#4B6BFB",
+        "dark-text-gray": "#97989F",
       },
       boxShadow: {
         "all-sides":
