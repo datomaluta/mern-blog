@@ -11,17 +11,21 @@ import ProtectedRoute from "./components/sharedComponents/ProtectedRoute";
 import DashboardLayout from "./components/sharedComponents/DashboardLayout";
 import ResetPassword from "./pages/ResetPassword";
 import Footer from "./components/sharedComponents/Footer";
+import SinglePost from "./pages/SinglePost";
+import ScrollToTop from "./components/ui/ScrollToTop";
 
 function App() {
   return (
     <div className="sm:text-sm">
       <Toaster position="bottom-right" />
+      <ScrollToTop />
       <Header />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/posts/:slug" element={<SinglePost />} />
           <Route
             path="/reset-password/:resetToken"
             element={<ResetPassword />}

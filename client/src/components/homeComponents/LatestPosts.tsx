@@ -10,7 +10,7 @@ const LatestPosts = ({ posts }: { posts: PostType[] }) => {
       </h2>
       <div className="grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 gap-5">
         {posts?.map((post: PostType) => (
-          <PostCard post={post} />
+          <PostCard key={post.id} post={post} />
         ))}
       </div>
       <Link

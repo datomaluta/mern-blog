@@ -56,7 +56,7 @@ const Header = () => {
          pathname.includes("dashboard") ? "px-4" : "max-w-[75.3rem] mx-auto"
        }`}
       >
-        <div>
+        <Link to={"/"}>
           <img
             className="md:hidden"
             src={theme === "light" ? logo : whitelogo}
@@ -67,7 +67,7 @@ const Header = () => {
             src={theme === "light" ? mobileLogo : mobileLogoWhite}
             alt="logo"
           />
-        </div>
+        </Link>
 
         {/* nav */}
         <ul className="flex gap-4 md:hidden">

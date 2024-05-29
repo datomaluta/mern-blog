@@ -1,14 +1,16 @@
+import { Link } from "react-router-dom";
 import { formatDate } from "../../helpers/dateFunctions";
 
 const PostCard = ({ post }: { post: any }) => {
   return (
-    <div
+    <Link
+      to={`/posts/${post.slug}`}
       key={post.id}
-      className="p-4 border dark:border-dark-gray-tint border-white-shade rounded-xl flex flex-col"
+      className="p-4 border dark:border-dark-gray-tint border-white-shade rounded-xl flex flex-col hover:dark:bg-dark-gray-tint hover:bg-white-shade transition-all duration-300 group"
     >
       <div className="object-cover rounded-xl overflow-hidden max-w-[360px] h-[50%] lg:max-w-full mb-4">
         <img
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
           src={post.imageUrl}
           alt={post.title}
         />
@@ -23,9 +25,9 @@ const PostCard = ({ post }: { post: any }) => {
       </h1>
 
       <div className="flex items-center dark:text-zinc-500 text-zinc-400 lg:text-sm mt-auto ">
-        <div className="w-9 md:w-7 h-9 md:h-7 rounded-full overflow-hidden object-cover mr-2 sm:mr-1">
+        <div className="w-9 md:w-7 h-9 md:h-7 rounded-full overflow-hidden mr-2 sm:mr-1">
           <img
-            className="w-full h-full"
+            className="w-full h-full  object-cover"
             src={post?.user?.imageUrl}
             alt="avatar"
           />
@@ -33,7 +35,7 @@ const PostCard = ({ post }: { post: any }) => {
         <p className="mr-4 sm:mr-2">Jason Francisco</p>
         <p>{formatDate(post?.createdAt)}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

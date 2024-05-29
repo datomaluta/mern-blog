@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const { pathname } = useLocation();
   return (
     <div
-      className={`${
+      className={`min-h-screen ${
         pathname.includes("dashboard")
           ? "w-full"
           : "max-w-[75.3rem] mx-auto xl:px-4 md:px-3 "
