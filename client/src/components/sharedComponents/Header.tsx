@@ -8,14 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import DarkModeSwitcher from "../ui/DarkModeSwitcher";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import { FaUserCircle } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import useOutsideClick from "../../hooks/useOutsideClick";
-import { useQuery } from "react-query";
+
 import { signout } from "../../services/auth";
 import { saveUserInfo } from "../../redux/user/userSlice";
 import { ImSpinner3 } from "react-icons/im";
+import { useQuery } from "@tanstack/react-query";
 
 const Header = () => {
   const { theme } = useSelector((state: RootState) => state.theme);
@@ -37,16 +38,30 @@ const Header = () => {
     if (window.innerWidth < 800) setProfileDropdownIsOpen(false);
   });
 
-  const { refetch: logout, isLoading: logoutLoading } = useQuery({
+  const {
+    refetch: logout,
+    isLoading: logoutLoading,
+    isSuccess: logoutIsSuccess,
+  } = useQuery({
     queryKey: ["logout"],
     queryFn: signout,
-    onSuccess: () => {
+
+    // onSuccess: () => {
+    // dispatch(saveUserInfo(null));
+    // setMobileHeaderIsOpen(false);
+    // setProfileDropdownIsOpen(false);
+    // },
+
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (logoutIsSuccess) {
       dispatch(saveUserInfo(null));
       setMobileHeaderIsOpen(false);
       setProfileDropdownIsOpen(false);
-    },
-    enabled: false,
-  });
+    }
+  }, [logoutIsSuccess, dispatch]);
 
   return (
     <header className="dark:bg-dark-gray-shade dark:bg-opacity-95 bg-white-shade bg-opacity-95 backdrop-blur-sm sticky top-0 1 py-6  md:py-4 z-30">
@@ -83,7 +98,7 @@ const Header = () => {
               pathname === "/posts" && "dark:border-white border-zinc-700"
             }`}
           >
-            <Link to={"/"}>All Posts</Link>
+            <Link to={"/posts"}>All Posts</Link>
           </li>
           <li
             className={`border-b border-transparent pb-1 hover:dark:border-white hover:border-zinc-700 ${

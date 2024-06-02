@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import GeneralUserForm from "../components/profileComponents/GeneralUserForm";
-import PasswordChangeForm from "../components/profileComponents/PasswordChangeForm";
+import GeneralUserForm from "../../components/profileComponents/GeneralUserForm";
+import PasswordChangeForm from "../../components/profileComponents/PasswordChangeForm";
 
 const Profile = () => {
   const location = useLocation();

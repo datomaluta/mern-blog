@@ -1,19 +1,16 @@
-import { useQuery } from "react-query";
 import { getPosts } from "../services/post";
 import LoadingSpinner from "../components/sharedComponents/LoadingSpinner";
 import { motion } from "framer-motion";
 import MainPost from "../components/homeComponents/MainPost";
 import LatestPosts from "../components/homeComponents/LatestPosts";
 import { PostType } from "../types/post";
+import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
   const { data: posts, isLoading: postsLoading } = useQuery<PostType[]>({
     queryKey: ["posts"],
-    queryFn: () =>
-      getPosts("page=1&limit=9").then((res) => res.data?.data?.posts),
+    queryFn: () => getPosts({ page: 1 }).then((res) => res.data?.data?.posts),
   });
-
-  console.log(posts);
 
   return (
     <div className="mt-10 pb-40 min-h-screen">
