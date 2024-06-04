@@ -20,9 +20,11 @@ const PostCard = ({ post }: { post: any }) => {
         {post.category}
       </p>
 
-      <h1 className="text-2xl sm:text-lg font-semibold line-clamp-3 mb-4">
-        {post.title}
-      </h1>
+      <div className="mb-4">
+        <h1 className="text-2xl xl:text-xl sm:text-lg font-semibold line-clamp-3  leading-10 ">
+          {post.title}
+        </h1>
+      </div>
 
       <div className="flex items-center dark:text-zinc-500 text-zinc-400 lg:text-sm mt-auto ">
         <div className="w-9 md:w-7 h-9 md:h-7 rounded-full overflow-hidden mr-2 sm:mr-1">

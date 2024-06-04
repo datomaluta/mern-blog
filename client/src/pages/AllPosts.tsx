@@ -1,10 +1,4 @@
-// import { getPosts } from "../services/post";
-// import { PostType } from "../types/post";
-// import PostCard from "../components/ui/PostCard";
-// import { categories } from "../data/categories";
-// import LoadingSpinner from "../components/sharedComponents/LoadingSpinner";
-// import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getPosts } from "../services/post";
@@ -29,9 +23,7 @@ const AllPosts = () => {
     category: "",
   });
   const urlParams = new URLSearchParams(location.search);
-  const [queryString, setQueryString] = useState<string>(
-    urlParams?.toString() || ""
-  );
+  const queryString = urlParams?.toString();
 
   const {
     data: posts,
@@ -39,27 +31,20 @@ const AllPosts = () => {
     hasNextPage,
     isFetchingNextPage,
     status,
-    refetch: refetchPosts,
-    isFetching,
   } = useInfiniteQuery({
-    queryKey: ["posts"],
+    queryKey: ["posts", queryString],
     queryFn: ({ pageParam }) =>
       getPosts({ page: pageParam, queryString })?.then(
         (res) => res.data?.data?.posts
       ),
     initialPageParam: 1,
     getNextPageParam: (lastPage: any, allPages) => {
-      // console.log("lastPage: ", lastPage);
-      // console.log("allPages: ", allPages);
       const nextPage = lastPage?.length ? allPages?.length + 1 : undefined;
       return nextPage;
     },
   });
 
   const filterHandler = () => {
-    // console.log("filtet handler");
-    // const urlParams = new URLSearchParams(location.search);
-    // console.log(query);
     query.search
       ? urlParams.set("search", query.search)
       : urlParams.delete("search");
@@ -74,28 +59,12 @@ const AllPosts = () => {
     navigate(`${location.pathname}?${urlParams.toString()}`);
   };
 
-  useEffect(() => {
-    // const urlParams = new URLSearchParams(location.search);
-    // getPostsRefetch(`${urlParams.toString()}`);
-    setQueryString(urlParams.toString());
-  }, [location.search, urlParams]);
-
-  // console.log(queryString);
-
-  console.log("QUERY STATE: ", query);
-
-  useEffect(() => {
-    refetchPosts();
-  }, [queryString, refetchPosts]);
-
-  console.log("POSTS: ", posts && posts?.pages[0]);
-
   return (
     <div className="mt-10 mb-20">
-      {/* {status === "pending" && <LoadingSpinner blur />} */}
+      {status === "pending" && <LoadingSpinner blur />}
 
       <>
-        {isFetching && <LoadingSpinner blur />}
+        {/* {isFetching && <LoadingSpinner blur />} */}
         <div className="flex gap-4 mb-6 md:flex-col items-center">
           <div className="text-sm  flex-1  w-full">
             <input
