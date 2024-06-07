@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { useMutation } from "react-query";
 import { saveUserInfo } from "../../redux/user/userSlice";
 import { updateMe } from "../../services/user";
 import toast from "react-hot-toast";
 import { generalUserUpdateFormArray } from "../../data/formArray";
 import { IoMdCloudUpload } from "react-icons/io";
 import { ImSpinner3 } from "react-icons/im";
+import { useMutation } from "@tanstack/react-query";
 
 type FormData = {
   username: string;
@@ -58,7 +58,7 @@ const GeneralUserForm = () => {
     }
   }, [avatarInput]);
 
-  const { mutate: userUpdateMutate, isLoading: userUpdateLoading } =
+  const { mutate: userUpdateMutate, isPending: userUpdateLoading } =
     useMutation({
       mutationFn: updateMe,
       onSuccess: (data) => {

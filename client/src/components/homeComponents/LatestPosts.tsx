@@ -15,7 +15,7 @@ const LatestPosts = ({ posts }: { posts: PostType[] }) => {
       </div>
       <Link
         className="mt-8 block text-center border border-white-shade dark:border-dark-gray-tint w-max mx-auto px-5 py-3 rounded-xl"
-        to={"/"}
+        to={"/posts"}
       >
         View all posts
       </Link>

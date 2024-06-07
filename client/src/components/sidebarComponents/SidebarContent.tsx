@@ -2,23 +2,31 @@ import { FaNewspaper, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../../redux/store";
-import { useQuery } from "react-query";
 import { signout } from "../../services/auth";
 import { saveUserInfo } from "../../redux/user/userSlice";
 import { ImSpinner3 } from "react-icons/im";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const SidebarContent = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
-  const { refetch: logout, isLoading: logoutLoading } = useQuery({
+  const {
+    refetch: logout,
+    isLoading: logoutLoading,
+    isSuccess: logoutIsSuccess,
+  } = useQuery({
     queryKey: ["logout"],
     queryFn: signout,
-    onSuccess: () => {
-      dispatch(saveUserInfo(null));
-    },
+
     enabled: false,
   });
+  useEffect(() => {
+    if (logoutIsSuccess) {
+      dispatch(saveUserInfo(null));
+    }
+  }, [logoutIsSuccess, dispatch]);
 
   return (
     <>

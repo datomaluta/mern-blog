@@ -68,11 +68,13 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
     .paginate();
 
   const posts = await features.query;
+  const total = await Post.countDocuments();
 
   res.status(200).json({
     status: "success",
     results: posts.length,
     data: {
+      total,
       posts,
     },
   });

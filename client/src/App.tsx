@@ -5,7 +5,6 @@ import Header from "./components/sharedComponents/Header";
 import Layout from "./components/sharedComponents/Layout";
 import SignIn from "./pages/SignIn";
 import Profile from "./pages/admin/Profile";
-import Posts from "./pages/admin/Posts";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/sharedComponents/ProtectedRoute";
 import DashboardLayout from "./components/sharedComponents/DashboardLayout";
@@ -14,6 +13,8 @@ import Footer from "./components/sharedComponents/Footer";
 import SinglePost from "./pages/SinglePost";
 import ScrollToTop from "./components/ui/ScrollToTop";
 import AllPosts from "./pages/AllPosts";
+import DashboardPosts from "./pages/admin/DashboardPosts";
+import "./style/pagination.css";
 
 function App() {
   return (
@@ -36,12 +37,11 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="profile" element={<Profile />} />
-              <Route path="posts" element={<Posts />} />
+              <Route path="posts" element={<DashboardPosts />} />
             </Route>
           </Route>
         </Routes>
       </Layout>
-      <div className="mb-40"></div>
       <Footer />
     </div>
   );

@@ -44,6 +44,8 @@ const AllPosts = () => {
     },
   });
 
+  console.log(posts);
+
   const filterHandler = () => {
     query.search
       ? urlParams.set("search", query.search)
