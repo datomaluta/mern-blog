@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPosts } from "../../services/post";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deletePost, getPosts } from "../../services/post";
 import { useState } from "react";
 import { Pagination, Table } from "flowbite-react";
 import { PostType } from "../../types/post";
@@ -9,9 +9,16 @@ import { FaTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoAddCircleSharp } from "react-icons/io5";
+import toast from "react-hot-toast";
+import ModalWrapper from "../../components/uiComponents/ModalWrapper";
+import { AnimatePresence } from "framer-motion";
 
 const DashboardPosts = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const [chosenItem, setChosenItem] = useState({} as PostType);
+  const queryClient = useQueryClient();
+
   const { data: postsData, isLoading: postsLoading } = useQuery({
     queryKey: ["posts", currentPage],
     queryFn: () =>
@@ -20,12 +27,46 @@ const DashboardPosts = () => {
 
   const onPageChange = (page: number) => setCurrentPage(page);
 
+  const { mutate: deleteMutation, isPending: isDeletingLoading } = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      setTimeout(() => {
+        toast.success("Post deleted successfully");
+        setDeleteModalIsOpen(false);
+        queryClient.invalidateQueries({
+          queryKey: ["posts", currentPage],
+        });
+      }, 200);
+    },
+    onError: () => {
+      toast.error("Something went wrong with delete!");
+    },
+  });
+
   return (
     <div>
+      <AnimatePresence>
+        {deleteModalIsOpen && (
+          <ModalWrapper setModalIsVisible={setDeleteModalIsOpen}>
+            <h3 className="text-center mt-10">
+              Are you sure you want to delete this post?
+            </h3>
+            <div className="mt-auto flex gap-4 justify-around">
+              <button
+                onClick={() => deleteMutation(chosenItem?.id)}
+                className="bg-light-purple px-4 py-1 rounded-lg"
+              >
+                {isDeletingLoading ? <LoadingSpinner /> : "Yes"}
+              </button>
+              <button className="">No</button>
+            </div>
+          </ModalWrapper>
+        )}
+      </AnimatePresence>
       <div className="flex justify-between mb-5">
         <h1 className="text-lg font-medium">Posts</h1>
         <Link
-          to={""}
+          to={"/dashboard/posts/create"}
           className="bg-light-purple text-white px-3 py-1 rounded-md font-medium flex items-center gap-2"
         >
           <IoAddCircleSharp className="text-xl" /> Add Post
@@ -62,12 +103,18 @@ const DashboardPosts = () => {
                   <Table.Cell>{post.category}</Table.Cell>
                   <Table.Cell className="flex gap-3">
                     <Link
-                      to="#"
+                      to={`/dashboard/posts/edit/${post.id}`}
                       className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 border border-cyan-600 p-2 rounded-full"
                     >
                       <MdEdit />
                     </Link>
-                    <button className="text-red-700 font-medium border border-red-700 p-2 rounded-full">
+                    <button
+                      onClick={() => {
+                        setChosenItem(post);
+                        setDeleteModalIsOpen(true);
+                      }}
+                      className="text-red-700 font-medium border border-red-700 p-2 rounded-full"
+                    >
                       <FaTrashAlt />
                     </button>
                   </Table.Cell>
@@ -80,7 +127,7 @@ const DashboardPosts = () => {
         ""
       )}
 
-      {postsData?.posts?.length ? (
+      {Math.ceil(postsData?.total / 9) > 1 ? (
         <Pagination
           layout="pagination"
           currentPage={currentPage}

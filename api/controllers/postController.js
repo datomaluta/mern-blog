@@ -6,6 +6,7 @@ const path = require("path");
 const AppError = require("../utils/appError");
 const uuid = require("uuid");
 const APIFeatures = require("../utils/apiFeatures");
+const mongoose = require("mongoose");
 
 const multerStorage = multer.memoryStorage();
 
@@ -45,9 +46,9 @@ exports.resizePostPhoto = catchAsync(async (req, res, next) => {
 });
 
 exports.createPost = catchAsync(async (req, res, next) => {
-  // if (!req.file) {
-  //   return next(new AppError("Image field is required"));
-  // }
+  if (!req.file) {
+    return next(new AppError("Image field is required"));
+  }
   if (req.file) req.body.image = req.file.filename;
   const newPost = await Post.create({ ...req.body, user: req.user.id });
 
@@ -81,10 +82,30 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
 });
 
 exports.getPost = catchAsync(async (req, res, next) => {
-  const post = await Post.findOne({ slug: req.params.slug });
+  let post;
+  if (mongoose.Types.ObjectId.isValid(req.params.slug)) {
+    post = await Post.findById(req.params.slug);
+  } else {
+    post = await Post.findOne({ slug: req.params.slug });
+  }
 
   if (!post) {
     return next(new AppError("No post found with that slug", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      post,
+    },
+  });
+});
+
+exports.getPostById = catchAsync(async (req, res, next) => {
+  const post = await Post.findById(req.params.id);
+
+  if (!post) {
+    return next(new AppError("No post found with that id", 404));
   }
 
   res.status(200).json({

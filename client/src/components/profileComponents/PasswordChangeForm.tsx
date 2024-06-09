@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 import { updateMyPassword } from "../../services/user";
 import toast from "react-hot-toast";
 import { ImSpinner3 } from "react-icons/im";
+import { useMutation } from "@tanstack/react-query";
 
 type FormData = {
   passwordCurrent: string;
@@ -18,7 +18,7 @@ const PasswordChangeForm = () => {
     reset,
   } = useForm<FormData>();
 
-  const { mutate: passwordUpdateMutate, isLoading: passwordUpdateLoading } =
+  const { mutate: passwordUpdateMutate, isPending: passwordUpdateLoading } =
     useMutation({
       mutationFn: updateMyPassword,
       onSuccess: () => {

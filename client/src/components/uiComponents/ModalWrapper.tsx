@@ -28,7 +28,7 @@ const ModalWrapper = ({
       ></div>
       <motion.div
         className="bg-dark-gray absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[30rem] rounded-lg px-4 py-8
-    w-[90%] z-50 h-80"
+    w-[90%] z-50 h-80 flex flex-col"
         initial={{ opacity: 0, y: "-150%", x: "-50%" }}
         animate={{
           opacity: 1,

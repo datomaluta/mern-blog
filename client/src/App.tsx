@@ -15,6 +15,8 @@ import ScrollToTop from "./components/ui/ScrollToTop";
 import AllPosts from "./pages/AllPosts";
 import DashboardPosts from "./pages/admin/DashboardPosts";
 import "./style/pagination.css";
+import PostCreate from "./pages/admin/PostCreate";
+import PostEdit from "./pages/admin/PostEdit";
 
 function App() {
   return (
@@ -37,7 +39,9 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="profile" element={<Profile />} />
-              <Route path="posts" element={<DashboardPosts />} />
+              <Route path="posts" element={<DashboardPosts />} />{" "}
+              <Route path="posts/create" element={<PostCreate />} />
+              <Route path="posts/edit/:id" element={<PostEdit />} />
             </Route>
           </Route>
         </Routes>

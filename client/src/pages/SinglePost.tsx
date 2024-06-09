@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { getPost } from "../services/post";
-import { useQuery } from "react-query";
 import { PostType } from "../types/post";
 import { formatDate } from "../helpers/dateFunctions";
 import LoadingSpinner from "../components/sharedComponents/LoadingSpinner";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 
 const SinglePost = () => {
   const { slug } = useParams();
