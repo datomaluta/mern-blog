@@ -6,13 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth";
 import { useForm, useWatch } from "react-hook-form";
-import { useMutation } from "react-query";
 import { ImSpinner3 } from "react-icons/im";
 import { Alert } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { getObjectLength } from "../helpers/objectFunctions";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../redux/user/userSlice";
+import { useMutation } from "@tanstack/react-query";
 
 const Signup = () => {
   const [formErrors, setFormErrors] = useState<any[]>([]);
@@ -32,7 +32,7 @@ const Signup = () => {
   const passwordInput = useWatch({ name: "password", control });
   const passwordConfirmInput = useWatch({ name: "passwordConfirm", control });
 
-  const { mutate: signupMutation, isLoading: signupLoading } = useMutation({
+  const { mutate: signupMutation, isPending: signupLoading } = useMutation({
     mutationFn: signup,
     onSuccess: (response) => {
       console.log(response);

@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { signin } from "../services/auth";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 import { ImSpinner3 } from "react-icons/im";
 import { Alert } from "flowbite-react";
 import { useEffect, useState } from "react";
@@ -15,6 +14,7 @@ import { saveUserInfo } from "../redux/user/userSlice";
 import ForgotPasswordForm from "../components/signinComponents/ForgotPasswordForm";
 import ModalWrapper from "../components/uiComponents/ModalWrapper";
 import { AnimatePresence } from "framer-motion";
+import { useMutation } from "@tanstack/react-query";
 
 const SignIn = () => {
   const [formErrors, setFormErrors] = useState<any[]>([]);
@@ -31,7 +31,7 @@ const SignIn = () => {
   } = useForm({ mode: "onSubmit" });
   const errorsLength = getObjectLength(errors);
 
-  const { mutate: signinMutation, isLoading: signinLoading } = useMutation({
+  const { mutate: signinMutation, isPending: signinLoading } = useMutation({
     mutationFn: signin,
     onSuccess: (response) => {
       navigate("/");

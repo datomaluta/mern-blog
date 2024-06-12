@@ -20,4 +20,29 @@ router.put(
 );
 router.patch("/updateMyPassword", authController.updatePassword);
 
+router.get(
+  "/allUsers",
+  authController.restrictTo("admin"),
+  userController.getAllUsers
+);
+
+router.post(
+  "/users/create",
+  authController.restrictTo("admin"),
+  userController.uploadUserPhoto,
+  userController.resizeUserPhoto,
+  userController.createUser
+);
+
+router
+  .route("/users/:id")
+  .get(authController.restrictTo("admin"), userController.getUserById)
+  .put(
+    authController.restrictTo("admin"),
+    userController.uploadUserPhoto,
+    userController.resizeUserPhoto,
+    userController.updateUser
+  )
+  .delete(authController.restrictTo("admin"), userController.deleteUser);
+
 module.exports = router;
