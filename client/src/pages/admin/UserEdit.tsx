@@ -1,46 +1,47 @@
 import "react-quill/dist/quill.snow.css";
-import { postFormArray } from "../../data/formArray";
-import { createPost } from "../../services/post";
+import { userFormArray } from "../../data/formArray";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import PostForm from "../../components/postComponents/PostForm";
 import { useState } from "react";
 import { Alert } from "flowbite-react";
+import { updateUser } from "../../services/user";
+import UserForm from "../../components/userComponents/UserForm";
 
 type FormData = {
-  title: string;
-  category: string;
-  image: FileList;
-  content: string;
+  username: string;
+  email: string;
+  role: string;
+  photo: FileList;
 };
 
-const PostCreate = () => {
+const UserEdit = () => {
   const formData = new FormData();
   const navigate = useNavigate();
+  const { id } = useParams();
   const [apiError, setApiError] = useState("");
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createPost,
+    mutationFn: updateUser,
     onSuccess: () => {
-      toast.success("Post created successfully");
+      toast.success("User updated successfully");
       setTimeout(() => {
-        navigate("/dashboard/posts");
+        navigate("/dashboard/users");
       }, 2000);
     },
     onError: (err: any) => {
       if (err?.response?.data?.message) {
         setApiError(err.response.data.message);
       } else {
-        setApiError("Post create failed, Something went wrong!");
+        setApiError("User update failed, Something went wrong!");
       }
     },
   });
   const submitHandler = (data: FormData) => {
-    postFormArray.forEach((field: { name: string }) => {
-      if (field.name === "image") {
-        if (data[field.name]) {
-          formData.append(field.name, data["image"][0]);
+    userFormArray.forEach((field: { name: string }) => {
+      if (field.name === "photo") {
+        if (data["photo"][0]) {
+          formData.append(field.name, data["photo"][0]);
         }
       } else {
         formData.append(
@@ -50,17 +51,19 @@ const PostCreate = () => {
       }
     });
 
-    mutate(formData);
+    mutate({
+      data: formData,
+      id: id as string,
+    });
   };
 
   return (
     <div className="mb-40">
-      <h1 className="text-lg font-medium mb-5">Create Post</h1>
-
-      <PostForm
+      <h1 className="text-lg font-medium mb-5">Update User</h1>
+      <UserForm
         submitHandler={submitHandler}
         isPending={isPending}
-        action="create"
+        action="edit"
       />
 
       {apiError && (
@@ -71,4 +74,4 @@ const PostCreate = () => {
     </div>
   );
 };
-export default PostCreate;
+export default UserEdit;

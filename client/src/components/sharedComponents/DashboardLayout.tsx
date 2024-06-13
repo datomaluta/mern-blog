@@ -17,7 +17,7 @@ const DashboardLayout = () => {
   });
 
   return (
-    <div className="">
+    <div>
       <AnimatePresence>
         {sidebarIsOpen && (
           <motion.div
@@ -26,12 +26,13 @@ const DashboardLayout = () => {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "tween", duration: 0.2, ease: "easeInOut" }}
-            className="hidden dark:bg-dark-gray-tint bg-zinc-300 w-[16.25rem] fixed left-0 top-0 h-full mt-[5.25rem] md:mt-[4.25rem] p-4 md:flex flex-col gap-3"
+            className="hidden dark:bg-dark-gray-tint bg-zinc-300 w-[16.25rem] fixed left-0 top-0 h-full mt-[5.25rem] md:mt-[4.25rem] p-4 md:flex flex-col gap-3 z-[9999]"
           >
             <SidebarContent key={"desktop"} />
           </motion.div>
         )}
       </AnimatePresence>
+
       <div className="md:hidden dark:bg-dark-gray-tint bg-zinc-300 w-[16.25rem] fixed left-0 top-0 h-full mt-[5.25rem] md:mt-[4.25rem] p-4 flex flex-col gap-3">
         <SidebarContent key={"mobile"} />
       </div>

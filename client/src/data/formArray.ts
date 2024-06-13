@@ -10,3 +10,11 @@ export const postFormArray = [
   { name: "image" },
   { name: "content" },
 ];
+
+export const userFormArray = [
+  { name: "username" },
+  { name: "role" },
+  { name: "email" },
+  { name: "password" },
+  { name: "photo" },
+];

@@ -7,6 +7,8 @@ import { saveUserInfo } from "../../redux/user/userSlice";
 import { ImSpinner3 } from "react-icons/im";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { FaUsers } from "react-icons/fa6";
+import { MdDashboardCustomize } from "react-icons/md";
 
 const SidebarContent = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
@@ -30,6 +32,20 @@ const SidebarContent = () => {
 
   return (
     <>
+      <NavLink
+        className={({ isActive }) =>
+          isActive
+            ? "dark:bg-dark-gray-shade bg-gray-200 flex items-center p-2 rounded-lg"
+            : "flex items-center p-2 rounded-lg"
+        }
+        to={"/dashboard"}
+        end
+      >
+        <span className="flex gap-2 items-center">
+          <MdDashboardCustomize />
+          Dashboard
+        </span>
+      </NavLink>
       <NavLink
         className={({ isActive }) =>
           isActive
@@ -60,6 +76,23 @@ const SidebarContent = () => {
           Posts
         </span>
       </NavLink>
+
+      {currentUser?.role === "admin" && (
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "dark:bg-dark-gray-shade bg-gray-200 flex items-center p-2 rounded-lg"
+              : "flex items-center p-2 rounded-lg"
+          }
+          to={"/dashboard/users"}
+        >
+          <span className="flex gap-2 items-center">
+            <FaUsers />
+            Users
+          </span>
+        </NavLink>
+      )}
+
       <button
         onClick={() => logout()}
         className="flex gap-2 items-center p-2 bg:text-zinc-400 text-zinc-500"

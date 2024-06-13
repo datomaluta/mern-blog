@@ -1,46 +1,47 @@
 import "react-quill/dist/quill.snow.css";
-import { postFormArray } from "../../data/formArray";
-import { createPost } from "../../services/post";
+import { userFormArray } from "../../data/formArray";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import PostForm from "../../components/postComponents/PostForm";
 import { useState } from "react";
 import { Alert } from "flowbite-react";
+import UserForm from "../../components/userComponents/UserForm";
+import { createUser } from "../../services/user";
 
 type FormData = {
-  title: string;
-  category: string;
-  image: FileList;
-  content: string;
+  username: string;
+  email: string;
+  role: string;
+  password: FileList;
+  photo: FileList;
 };
 
-const PostCreate = () => {
+const UserCreate = () => {
   const formData = new FormData();
   const navigate = useNavigate();
   const [apiError, setApiError] = useState("");
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createPost,
+    mutationFn: createUser,
     onSuccess: () => {
-      toast.success("Post created successfully");
+      toast.success("User created successfully");
       setTimeout(() => {
-        navigate("/dashboard/posts");
+        navigate("/dashboard/users");
       }, 2000);
     },
     onError: (err: any) => {
       if (err?.response?.data?.message) {
         setApiError(err.response.data.message);
       } else {
-        setApiError("Post create failed, Something went wrong!");
+        setApiError("User create failed, Something went wrong!");
       }
     },
   });
   const submitHandler = (data: FormData) => {
-    postFormArray.forEach((field: { name: string }) => {
-      if (field.name === "image") {
+    userFormArray.forEach((field: { name: string }) => {
+      if (field.name === "photo") {
         if (data[field.name]) {
-          formData.append(field.name, data["image"][0]);
+          formData.append(field.name, data["photo"][0]);
         }
       } else {
         formData.append(
@@ -49,15 +50,19 @@ const PostCreate = () => {
         );
       }
     });
+    formData.append(
+      "passwordConfirm",
+      data["password" as keyof FormData] as string
+    );
 
     mutate(formData);
   };
 
   return (
     <div className="mb-40">
-      <h1 className="text-lg font-medium mb-5">Create Post</h1>
+      <h1 className="text-lg font-medium mb-5">Create User</h1>
 
-      <PostForm
+      <UserForm
         submitHandler={submitHandler}
         isPending={isPending}
         action="create"
@@ -71,4 +76,4 @@ const PostCreate = () => {
     </div>
   );
 };
-export default PostCreate;
+export default UserCreate;

@@ -17,6 +17,11 @@ import DashboardPosts from "./pages/admin/DashboardPosts";
 import "./style/pagination.css";
 import PostCreate from "./pages/admin/PostCreate";
 import PostEdit from "./pages/admin/PostEdit";
+import Users from "./pages/admin/Users";
+import UserCreate from "./pages/admin/UserCreate";
+import UserEdit from "./pages/admin/UserEdit";
+import RestrictedRoute from "./components/sharedComponents/RestrictedRoute";
+import Dashboard from "./pages/admin/Dashboard";
 
 function App() {
   return (
@@ -38,10 +43,16 @@ function App() {
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route path="" element={<Dashboard />} />
               <Route path="profile" element={<Profile />} />
-              <Route path="posts" element={<DashboardPosts />} />{" "}
+              <Route path="posts" element={<DashboardPosts />} />
               <Route path="posts/create" element={<PostCreate />} />
               <Route path="posts/edit/:id" element={<PostEdit />} />
+              <Route element={<RestrictedRoute />}>
+                <Route path="users" element={<Users />} />
+                <Route path="users/create" element={<UserCreate />} />
+                <Route path="users/edit/:id" element={<UserEdit />} />
+              </Route>
             </Route>
           </Route>
         </Routes>

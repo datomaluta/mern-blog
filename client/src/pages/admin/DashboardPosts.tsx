@@ -12,17 +12,23 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import toast from "react-hot-toast";
 import ModalWrapper from "../../components/uiComponents/ModalWrapper";
 import { AnimatePresence } from "framer-motion";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const DashboardPosts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
   const [chosenItem, setChosenItem] = useState({} as PostType);
   const queryClient = useQueryClient();
-
+  const { currentUser } = useSelector((state: RootState) => state.user);
   const { data: postsData, isLoading: postsLoading } = useQuery({
     queryKey: ["posts", currentPage],
     queryFn: () =>
-      getPosts({ page: currentPage }).then((res) => res?.data?.data),
+      getPosts({
+        page: currentPage,
+        queryString:
+          currentUser?.role === "user" ? `user=${currentUser.id}` : "",
+      }).then((res) => res?.data?.data),
   });
 
   const onPageChange = (page: number) => setCurrentPage(page);
@@ -63,7 +69,7 @@ const DashboardPosts = () => {
           </ModalWrapper>
         )}
       </AnimatePresence>
-      <div className="flex justify-between mb-5">
+      <div className="flex justify-between mb-5 items-center">
         <h1 className="text-lg font-medium">Posts</h1>
         <Link
           to={"/dashboard/posts/create"}

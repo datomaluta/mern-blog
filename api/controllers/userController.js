@@ -5,6 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
+const APIFeatures = require("../utils/apiFeatures");
 
 const multerStorage = multer.memoryStorage();
 
@@ -82,12 +83,20 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
+  const features = new APIFeatures(User?.find()?.select("+active"), req.query)
+    ?.search()
+    ?.filter()
+    ?.sort()
+    ?.paginate();
+
+  const users = await features.query;
+  const total = await User.countDocuments();
 
   return res.status(200).json({
     status: "success",
     results: users.length,
     data: {
+      total,
       users,
     },
   });
