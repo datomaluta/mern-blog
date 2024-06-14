@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { formatDate } from "../../helpers/dateFunctions";
+import { PostType } from "../../types/post";
 
-const PostCard = ({ post }: { post: any }) => {
+const PostCard = ({ post }: { post: PostType }) => {
   return (
     <Link
       to={`/posts/${post.slug}`}
@@ -34,7 +35,7 @@ const PostCard = ({ post }: { post: any }) => {
             alt="avatar"
           />
         </div>
-        <p className="mr-4 sm:mr-2">Jason Francisco</p>
+        <p className="mr-4 sm:mr-2">{post?.user?.username}</p>
         <p>{formatDate(post?.createdAt)}</p>
       </div>
     </Link>

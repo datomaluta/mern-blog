@@ -35,7 +35,7 @@ const MainPost = ({ post }: { post: PostType }) => {
                   alt="avatar"
                 />
               </div>
-              <p className="mr-4 sm:mr-2">Jason Francisco</p>
+              <p className="mr-4 sm:mr-2">{post?.user?.username}</p>
               <p>{formatDate(post?.createdAt)}</p>
             </div>
           </div>

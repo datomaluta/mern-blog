@@ -8,6 +8,7 @@ const path = require("path");
 
 const userRouter = require("./routes/userRoutes");
 const postRouter = require("./routes/postRoutes");
+const commentRouter = require("./routes/commentRoutes");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 
@@ -52,6 +53,7 @@ app.listen(3000, () => {
 
 app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
+app.use("/api/comments", commentRouter);
 app.get("/api/test", (req, res) => {
   res.json({ message: "API is working!" });
 });

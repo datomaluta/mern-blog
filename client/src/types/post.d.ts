@@ -1,3 +1,5 @@
+import { UserType } from "./user";
+
 export type PostType = {
   category: string;
   content: string;
@@ -8,5 +10,5 @@ export type PostType = {
   slug: string;
   title: string;
   updatedAt: string;
-  user: User;
+  user: UserType;
 };
