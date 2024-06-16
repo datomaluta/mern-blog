@@ -29,7 +29,9 @@ exports.getPostComments = catchAsync(async (req, res, next) => {
   const features = new ApiFeatures(
     Comment.find({ post: req.params.postId }),
     req.query
-  ).paginate();
+  )
+    .paginate()
+    .sort();
 
   const comments = await features.query;
 
@@ -44,18 +46,17 @@ exports.getPostComments = catchAsync(async (req, res, next) => {
 
 exports.likeComment = catchAsync(async (req, res, next) => {
   const comment = await Comment.findById(req.params.commentId);
-  console.log(comment.likes);
 
   if (!comment) {
     return next(new AppError("No comment found with that id", 404));
   }
-  console.log(comment.likes);
+
   const userIndex = comment.likes.indexOf(req.user.id);
   if (userIndex === -1) {
     comment.likes.push(req.user.id);
     comment.numberOfLikes += 1;
   } else {
-    comment.splce(userIndex, 1);
+    comment.likes.splice(userIndex, 1);
     comment.numberOfLikes -= 1;
   }
   await comment.save();

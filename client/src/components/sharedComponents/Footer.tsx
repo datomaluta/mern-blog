@@ -14,7 +14,7 @@ const Footer = () => {
       {pathname.includes("dashboard") ? (
         <></>
       ) : (
-        <footer className="dark:bg-dark-gray-shade bg-white-shade sticky top-0 1 pt-16 lg:pt-4 pb-6 lg:pb-4 md:py-4 z-30">
+        <footer className="dark:bg-dark-gray-shade bg-white-shade sticky top-0 1 pt-16 lg:pt-4 pb-6 lg:pb-4 md:py-4 z-30 mt-20">
           <div
             className={`relative xl:px-4 md:px-3 w-full 
      md:text-sm max-w-[75.3rem] mx-auto`}
