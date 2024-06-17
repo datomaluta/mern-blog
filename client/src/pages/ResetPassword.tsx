@@ -34,7 +34,6 @@ const ResetPassword = () => {
   const { mutate, isLoading } = useMutation({
     mutationFn: resetPassword,
     onSuccess: (data: any) => {
-      console.log(data);
       reset();
       toast.success("Password updated succesfully");
       dispatch(saveUserInfo(data?.data?.data?.user));

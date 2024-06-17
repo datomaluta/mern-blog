@@ -35,7 +35,6 @@ const Signup = () => {
   const { mutate: signupMutation, isPending: signupLoading } = useMutation({
     mutationFn: signup,
     onSuccess: (response) => {
-      console.log(response);
       navigate("/");
       dispatch(saveUserInfo(response?.data?.data?.user));
     },

@@ -41,7 +41,6 @@ const PostEdit = () => {
     postFormArray.forEach((field: { name: string }) => {
       if (field.name === "image") {
         if (data["image"][0]) {
-          console.log("DATA FIELD NAME", data[field.name]);
           formData.append(field.name, data["image"][0]);
         }
       } else {

@@ -25,6 +25,19 @@ exports.createComment = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getCommentById = catchAsync(async (req, res, next) => {
+  const comment = await Comment.findById(req.params.commentId);
+  if (!comment) {
+    return next(new AppError("No comment found with that id", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    data: {
+      comment,
+    },
+  });
+});
+
 exports.getPostComments = catchAsync(async (req, res, next) => {
   const features = new ApiFeatures(
     Comment.find({ post: req.params.postId }),
@@ -71,12 +84,10 @@ exports.likeComment = catchAsync(async (req, res, next) => {
 
 exports.editComment = catchAsync(async (req, res, next) => {
   const comment = await Comment.findById(req.params.commentId);
-  console.log(comment.likes);
   if (!comment) {
     return next(new AppError("No comment found with that id", 404));
   }
 
-  // console.log(comment.user, req.user.id);
   if (comment.use !== req.user.id && req.user.role !== "admin") {
     return next(new AppError("You are not allowed to edit comment", 403));
   }

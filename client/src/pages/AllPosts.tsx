@@ -44,8 +44,6 @@ const AllPosts = () => {
     },
   });
 
-  console.log(posts);
-
   const filterHandler = () => {
     query.search
       ? urlParams.set("search", query.search)
@@ -57,7 +55,6 @@ const AllPosts = () => {
       ? urlParams.set("category", query.category)
       : urlParams.delete("category");
     query.sort ? urlParams.set("sort", query.sort) : urlParams.delete("sort");
-    console.log("URL PARAMS TO STRING: ", urlParams?.toString());
     navigate(`${location.pathname}?${urlParams.toString()}`);
   };
 

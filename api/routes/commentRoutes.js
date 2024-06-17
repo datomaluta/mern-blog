@@ -28,4 +28,10 @@ router.delete(
 
 router.get("/getPostComments/:postId", commentController.getPostComments);
 
+router.get(
+  "/:commentId",
+  authController.protect,
+  commentController.getCommentById
+);
+
 module.exports = router;

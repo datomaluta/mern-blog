@@ -20,8 +20,7 @@ const ForgotPasswordForm = ({
 
   const { mutate, isLoading } = useMutation({
     mutationFn: forgotPassword,
-    onSuccess: (data: any) => {
-      console.log(data);
+    onSuccess: () => {
       toast.success("Reset email sent succesfully!");
       setTimeout(() => {
         setModalIsOpen(false);

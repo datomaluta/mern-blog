@@ -22,6 +22,8 @@ import UserCreate from "./pages/admin/UserCreate";
 import UserEdit from "./pages/admin/UserEdit";
 import RestrictedRoute from "./components/sharedComponents/RestrictedRoute";
 import Dashboard from "./pages/admin/Dashboard";
+import Comments from "./pages/admin/Comments";
+import CommentEdit from "./pages/admin/CommentEdit";
 
 function App() {
   return (
@@ -52,6 +54,8 @@ function App() {
                 <Route path="users" element={<Users />} />
                 <Route path="users/create" element={<UserCreate />} />
                 <Route path="users/edit/:id" element={<UserEdit />} />
+                <Route path="comments" element={<Comments />} />
+                <Route path="comments/edit/:id" element={<CommentEdit />} />
               </Route>
             </Route>
           </Route>
