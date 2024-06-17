@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "./../../assets/images/logo.png";
 import mobileLogo from "./../../assets/images/mobileLogo.png";
 import mobileLogoWhite from "./../../assets/images/mobileLogoWhite.png";
@@ -27,8 +27,10 @@ const Header = () => {
   const mobileProfileButtonRef = useRef<HTMLButtonElement | null>(null);
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { currentUser } = useSelector((state: RootState) => state.user);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useOutsideClick([dropdownRef, profileButtonRef], () => {
     if (window.innerWidth > 800) setProfileDropdownIsOpen(false);
@@ -62,6 +64,16 @@ const Header = () => {
       setProfileDropdownIsOpen(false);
     }
   }, [logoutIsSuccess, dispatch]);
+
+  const urlParams = new URLSearchParams(location.search);
+
+  const searchHandler = () => {
+    if (searchTerm) {
+      urlParams.set("search", searchTerm);
+      urlParams.set("searchFields", "title,content");
+      navigate(`/posts?search=${searchTerm}&searchFields=title,content`);
+    }
+  };
 
   return (
     <header className="dark:bg-dark-gray-shade dark:bg-opacity-95 bg-white-shade bg-opacity-95 backdrop-blur-sm sticky top-0 1 py-6  md:py-4 z-30">
@@ -113,12 +125,16 @@ const Header = () => {
         <div className="flex gap-5 items-center md:hidden">
           <div className="relative">
             <input
+              onChange={(e) => setSearchTerm(e.target.value)}
               type="text"
               placeholder="Search"
               className="bg-zinc-100 dark:bg-dark-gray-tint w-[10.5rem] h-9 rounded-lg p-2 pr-8 outline-none text-sm
           focus:ring-0 focus:border-zinc-400 border-1 border-transparent transition-all duration-300"
             />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2">
+            <button
+              onClick={searchHandler}
+              className="absolute right-2 top-1/2 -translate-y-1/2"
+            >
               <IoIosSearch className="h-6 w-6 text-zinc-600" />
             </button>
           </div>

@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getPosts } from "../services/post";
 import LoadingSpinner from "../components/sharedComponents/LoadingSpinner";
 import { motion } from "framer-motion";
 import PostCard from "../components/ui/PostCard";
 import { PostType } from "../types/post";
 import { categories } from "../data/categories";
+import { getUserById } from "../services/user";
 
 type queryType = {
   search: string;
@@ -17,13 +18,20 @@ type queryType = {
 const AllPosts = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const urlParams = useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
+  );
+
   const [query, setQuery] = useState<queryType>({
     search: "",
     sort: "",
     category: "",
   });
-  const urlParams = new URLSearchParams(location.search);
   const queryString = urlParams?.toString();
+
+  console.log(queryString);
+  console.log(query);
 
   const {
     data: posts,
@@ -44,6 +52,15 @@ const AllPosts = () => {
     },
   });
 
+  const { data: userData, isLoading: userDataLoading } = useQuery({
+    queryKey: ["userData", urlParams.get("user")],
+    queryFn: () =>
+      getUserById(urlParams.get("user") || "").then(
+        (res) => res.data?.data?.user
+      ),
+    enabled: !!urlParams.get("user"),
+  });
+
   const filterHandler = () => {
     query.search
       ? urlParams.set("search", query.search)
@@ -54,9 +71,18 @@ const AllPosts = () => {
     query.category
       ? urlParams.set("category", query.category)
       : urlParams.delete("category");
+
     query.sort ? urlParams.set("sort", query.sort) : urlParams.delete("sort");
     navigate(`${location.pathname}?${urlParams.toString()}`);
   };
+
+  useEffect(() => {
+    setQuery((prevQuery) => ({
+      ...prevQuery,
+      search: urlParams.get("search") || "",
+      // user: urlParams.get("user") || "",
+    }));
+  }, [location.search, urlParams]);
 
   return (
     <div className="mt-10 mb-20">
@@ -71,8 +97,10 @@ const AllPosts = () => {
               type="text"
               placeholder="Search Term..."
               onChange={(e) => setQuery({ ...query, search: e.target.value })}
+              value={query?.search || ""}
             />
           </div>
+
           <div className="md:w-full">
             <select
               onChange={(e) => setQuery({ ...query, category: e.target.value })}
@@ -103,6 +131,13 @@ const AllPosts = () => {
             Filter
           </button>
         </div>
+
+        {userData && !userDataLoading ? (
+          <h1 className="mb-4"> Posts by {userData?.username}</h1>
+        ) : (
+          ""
+        )}
+
         {status === "success" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 gap-5">

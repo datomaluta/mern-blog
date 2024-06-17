@@ -42,6 +42,7 @@ function App() {
             path="/reset-password/:resetToken"
             element={<ResetPassword />}
           />
+          <Route path="/posts/author" element={<AllPosts />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardLayout />}>
@@ -59,6 +60,8 @@ function App() {
               </Route>
             </Route>
           </Route>
+
+          <Route path="*" element={<Home />} />
         </Routes>
       </Layout>
       <Footer />
