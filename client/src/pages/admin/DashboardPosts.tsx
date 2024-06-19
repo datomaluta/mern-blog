@@ -27,7 +27,7 @@ const DashboardPosts = () => {
       getPosts({
         page: currentPage,
         queryString:
-          currentUser?.role === "user" ? `user=${currentUser.id}` : "",
+          currentUser?.role === "user" ? `user=${currentUser._id}` : "",
       }).then((res) => res?.data?.data),
   });
 
