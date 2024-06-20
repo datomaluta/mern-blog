@@ -9,10 +9,10 @@ const PostCard = ({ post }: { post: PostType }) => {
       key={post.id}
       className="p-4 border dark:border-dark-gray-tint border-white-shade rounded-xl flex flex-col hover:dark:bg-dark-gray-tint hover:bg-white-shade transition-all duration-300 group"
     >
-      <div className="object-cover rounded-xl overflow-hidden max-w-[360px] h-[50%] lg:max-w-full mb-4">
+      <div className="object-cover rounded-xl overflow-hidden max-w-[360px] h-[50%] max-h-[15rem] lg:max-w-full mb-4">
         <img
           className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
-          src={post.imageUrl}
+          src={post.image}
           alt={post.title}
         />
       </div>
@@ -31,7 +31,7 @@ const PostCard = ({ post }: { post: PostType }) => {
         <div className="w-9 md:w-7 h-9 md:h-7 rounded-full overflow-hidden mr-2 sm:mr-1">
           <img
             className="w-full h-full  object-cover"
-            src={post?.user?.imageUrl}
+            src={post?.user?.photo}
             alt="avatar"
           />
         </div>

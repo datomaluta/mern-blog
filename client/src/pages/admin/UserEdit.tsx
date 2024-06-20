@@ -1,5 +1,4 @@
 import "react-quill/dist/quill.snow.css";
-import { userFormArray } from "../../data/formArray";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -7,16 +6,16 @@ import { useState } from "react";
 import { Alert } from "flowbite-react";
 import { updateUser } from "../../services/user";
 import UserForm from "../../components/userComponents/UserForm";
+import { removeEmpty } from "../../helpers/objectFunctions";
 
 type FormData = {
   username: string;
   email: string;
   role: string;
-  photo: FileList;
+  photo: string;
 };
 
 const UserEdit = () => {
-  const formData = new FormData();
   const navigate = useNavigate();
   const { id } = useParams();
   const [apiError, setApiError] = useState("");
@@ -38,21 +37,8 @@ const UserEdit = () => {
     },
   });
   const submitHandler = (data: FormData) => {
-    userFormArray.forEach((field: { name: string }) => {
-      if (field.name === "photo") {
-        if (data["photo"][0]) {
-          formData.append(field.name, data["photo"][0]);
-        }
-      } else {
-        formData.append(
-          field.name,
-          data[field.name as keyof FormData] as string
-        );
-      }
-    });
-
     mutate({
-      data: formData,
+      data: removeEmpty(data) as FormData,
       id: id as string,
     });
   };

@@ -3,7 +3,6 @@ import signupImage from "./../assets/images/signupImage.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { CiLock, CiUnlock } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth";
 import { useForm, useWatch } from "react-hook-form";
 import { ImSpinner3 } from "react-icons/im";
@@ -13,6 +12,7 @@ import { getObjectLength } from "../helpers/objectFunctions";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../redux/user/userSlice";
 import { useMutation } from "@tanstack/react-query";
+import OAuth from "../components/signinComponents/OAuth";
 
 const Signup = () => {
   const [formErrors, setFormErrors] = useState<any[]>([]);
@@ -189,10 +189,7 @@ const Signup = () => {
             Or sign up with
           </p>
 
-          <button className="flex gap-2 items-center border border-zinc-300 dark:border-zinc-600 p-2 rounded-lg mx-auto mt-3 hover:bg-dark-gray hover:dark:bg-dark-gray-shade hover:text-white hover: transition-all">
-            <FcGoogle />
-            Google
-          </button>
+          <OAuth />
 
           <p className="dark:text-zinc-400 text-sm text-center mt-7 flex gap-2 justify-center">
             Already have an account?{" "}

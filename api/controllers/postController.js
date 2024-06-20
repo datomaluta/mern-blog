@@ -46,10 +46,6 @@ exports.resizePostPhoto = catchAsync(async (req, res, next) => {
 });
 
 exports.createPost = catchAsync(async (req, res, next) => {
-  if (!req.file) {
-    return next(new AppError("Image field is required"));
-  }
-  if (req.file) req.body.image = req.file.filename;
   const newPost = await Post.create({ ...req.body, user: req.user.id });
 
   res.status(201).json({
@@ -117,7 +113,6 @@ exports.getPostById = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePost = catchAsync(async (req, res, next) => {
-  if (req.file) req.body.image = req.file.filename;
   const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,

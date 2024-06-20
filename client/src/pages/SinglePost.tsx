@@ -42,7 +42,7 @@ const SinglePost = () => {
               <div className="w-9 md:w-7 h-9 md:h-7 rounded-full overflow-hidden object-cover mr-2 sm:mr-1">
                 <img
                   className="w-full h-full"
-                  src={post?.user?.imageUrl}
+                  src={post?.user?.photo}
                   alt="avatar"
                 />
               </div>
@@ -54,7 +54,7 @@ const SinglePost = () => {
           <div className="w-full max-h-[29rem] overflow-hidden rounded-xl mt-8">
             <img
               className="h-full w-full object-cover"
-              src={post?.imageUrl}
+              src={post?.image}
               alt={post?.title}
             />
           </div>

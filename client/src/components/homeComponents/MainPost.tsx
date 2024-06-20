@@ -15,7 +15,7 @@ const MainPost = ({ post }: { post: PostType }) => {
           <div className="bg-red-500 rounded-xl overflow-hidden">
             <img
               className="w-full object-cover max-h-[37.5rem]"
-              src={post?.imageUrl || ""}
+              src={post?.image || ""}
               alt={post?.title || ""}
             />
           </div>
@@ -31,7 +31,7 @@ const MainPost = ({ post }: { post: PostType }) => {
               <div className="w-9 md:w-7 h-9 md:h-7 rounded-full overflow-hidden object-cover mr-2 sm:mr-1">
                 <img
                   className="w-full h-full"
-                  src={post?.user?.imageUrl}
+                  src={post?.user?.photo}
                   alt="avatar"
                 />
               </div>

@@ -1,5 +1,4 @@
 import "react-quill/dist/quill.snow.css";
-import { postFormArray } from "../../data/formArray";
 import { createPost } from "../../services/post";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +10,11 @@ import { Alert } from "flowbite-react";
 type FormData = {
   title: string;
   category: string;
-  image: FileList;
+  image: string;
   content: string;
 };
 
 const PostCreate = () => {
-  const formData = new FormData();
   const navigate = useNavigate();
   const [apiError, setApiError] = useState("");
 
@@ -37,20 +35,7 @@ const PostCreate = () => {
     },
   });
   const submitHandler = (data: FormData) => {
-    postFormArray.forEach((field: { name: string }) => {
-      if (field.name === "image") {
-        if (data[field.name]) {
-          formData.append(field.name, data["image"][0]);
-        }
-      } else {
-        formData.append(
-          field.name,
-          data[field.name as keyof FormData] as string
-        );
-      }
-    });
-
-    mutate(formData);
+    mutate(data);
   };
 
   return (

@@ -5,8 +5,8 @@ export type PostType = {
   content: string;
   createdAt: string;
   id: string;
+  _id: string;
   image: string;
-  imageUrl: string;
   slug: string;
   title: string;
   updatedAt: string;

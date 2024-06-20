@@ -63,8 +63,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   }
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filteredBody = filterObj(req.body, "username", "email");
-  if (req.file) filteredBody.photo = req.file.filename;
+  const filteredBody = filterObj(req.body, "username", "email", "photo");
+  // if (req.file) filteredBody.photo = req.file.filename;
 
   // 3) Upadte user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
@@ -120,7 +120,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
     role: req.body.role,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    photo: req.file.filename,
+    photo: req.body.photo,
   });
 
   res.status(201).json({
@@ -138,8 +138,13 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     return next(new AppError("No user found with that id", 404));
   }
 
-  const filteredBody = filterObj(req.body, "username", "email", "role");
-  if (req.file) filteredBody.photo = req.file.filename;
+  const filteredBody = filterObj(
+    req.body,
+    "username",
+    "email",
+    "role",
+    "photo"
+  );
 
   const updatedUser = await User.findByIdAndUpdate(
     req.params.id,

@@ -9,6 +9,7 @@ router.post("/signin", authController.signin);
 router.get("/logout", authController.logout);
 router.post("/forgotPassword", authController.forgotPassword);
 router.patch("/resetPassword/:token", authController.resetPassword);
+router.post("/google/", authController.googleLogin);
 
 // protected routes
 router.use(authController.protect);

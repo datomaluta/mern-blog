@@ -1,18 +1,22 @@
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaImage } from "react-icons/fa";
 import { ImSpinner3 } from "react-icons/im";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../sharedComponents/LoadingSpinner";
 import { getUserById } from "../../services/user";
+import { app } from "../../firebase";
+import useUploadImage from "../../hooks/useUploadImage";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 type FormData = {
   username: string;
   email: string;
   role: string;
-  password: FileList;
-  photo: FileList;
+  password: string;
+  photo: string;
 };
 
 const UserForm = ({
@@ -24,8 +28,15 @@ const UserForm = ({
   isPending: boolean;
   action: string;
 }) => {
-  const [imgPreview, setImgPreview] = useState<string>("");
   const { id } = useParams();
+
+  const {
+    uploadImage,
+    imageFileUploading,
+    imageFileUploadError,
+    imageFileUploadProgress,
+    imgPreview,
+  } = useUploadImage(app);
 
   const {
     register,
@@ -35,28 +46,7 @@ const UserForm = ({
     formState: { errors },
   } = useForm<FormData>();
 
-  const imageInput = useWatch({ control, name: "photo" }) as FileList;
-
-  useEffect(() => {
-    if (!imageInput || imageInput.length === 0) {
-      setImgPreview("");
-      return;
-    }
-
-    const file: File = imageInput[0];
-
-    if (
-      file instanceof File &&
-      ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
-    ) {
-      const objectUrl = URL.createObjectURL(file);
-      setImgPreview(objectUrl);
-
-      return () => URL.revokeObjectURL(objectUrl);
-    } else {
-      setImgPreview(""); // Clear preview if file is not an image
-    }
-  }, [imageInput]);
+  const imageInput = useWatch({ control, name: "photo" }) as any;
 
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ["user", id],
@@ -70,14 +60,22 @@ const UserForm = ({
       setValue("username", user?.username);
       setValue("email", user?.email);
       setValue("role", user?.role);
-      setImgPreview(user?.imageUrl);
     }
   }, [user, setValue, action]);
+
+  useEffect(() => {
+    if (imageInput) uploadImage(imageInput[0]);
+  }, [imageInput, uploadImage]);
 
   return (
     <>
       {action === "edit" && userLoading && <LoadingSpinner blur />}
-      <form onSubmit={handleSubmit(submitHandler)} className="max-w-2xl">
+      <form
+        onSubmit={handleSubmit((data) =>
+          submitHandler({ ...data, photo: imgPreview as string })
+        )}
+        className="max-w-2xl"
+      >
         <div className="mb-6">
           <input
             {...register("username", {
@@ -143,17 +141,35 @@ const UserForm = ({
               <FaImage className="w-5 h-5" />
               Upload Image
             </label>
-            {imgPreview && (
-              <img
-                className="w-48 h-28 object-cover mx-auto rounded-lg"
-                src={imgPreview}
-                alt="userImage"
-              />
-            )}
+
+            <div className="flex gap-4 justify-center relative  h-28 w-48 border-zinc-600 border border-dashed mx-auto rounded-lg overflow-hidden">
+              {imageFileUploading && (
+                <CircularProgressbar
+                  value={imageFileUploadProgress || 0}
+                  text={`${imageFileUploadProgress}%`}
+                  background
+                  backgroundPadding={6}
+                  className="w-20 h-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  styles={buildStyles({
+                    backgroundColor: "#3e98c7",
+                    textColor: "#fff",
+                    pathColor: "#fff",
+                    trailColor: "transparent",
+                  })}
+                />
+              )}
+              {(imgPreview || user?.photo) && (
+                <img
+                  className="w-full h-full object-cover mx-auto rounded-lg"
+                  src={imgPreview || user?.photo}
+                  alt="userImage"
+                />
+              )}
+            </div>
           </div>
 
           <p className="text-sm text-red-500 mt-1 h-2">
-            {errors?.photo?.message}
+            {imageFileUploadError}
           </p>
         </div>
 
@@ -173,7 +189,10 @@ const UserForm = ({
           </div>
         )}
 
-        <button className="submit-button sm:max-w-full !mt-14">
+        <button
+          disabled={imageFileUploading}
+          className="submit-button sm:max-w-full !mt-14"
+        >
           {isPending ? (
             <ImSpinner3 className="animate-spin text-xl" />
           ) : (

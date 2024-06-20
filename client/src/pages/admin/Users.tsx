@@ -109,8 +109,8 @@ const Users = () => {
                   >
                     <img
                       className="w-10 h-10 rounded-full object-cover"
-                      src={user?.imageUrl}
-                      alt="Jese image"
+                      src={user?.photo}
+                      alt="user image"
                     />
                     <div className="ps-3">
                       <div className="text-base font-semibold">
@@ -134,7 +134,7 @@ const Users = () => {
                   </td>
                   <td className="px-6 py-4 flex gap-3">
                     <Link
-                      to={`/dashboard/users/edit/${user?.id}`}
+                      to={`/dashboard/users/edit/${user?._id}`}
                       className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 border border-cyan-600 p-2 rounded-full"
                     >
                       <MdEdit />

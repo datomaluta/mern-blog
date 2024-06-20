@@ -104,8 +104,8 @@ const Comments = () => {
                     >
                       <img
                         className="w-10 h-10 rounded-full object-cover"
-                        src={comment?.user.imageUrl}
-                        alt="Jese image"
+                        src={comment?.user?.photo}
+                        alt="user image"
                       />
                       <div className="ps-3">
                         <div className="text-base font-semibold">

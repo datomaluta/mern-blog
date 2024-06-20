@@ -240,7 +240,7 @@ const CommentSection = ({ post }: { post: PostType }) => {
                 <div className="w-9 h-9 rounded-full overflow-hidden">
                   <img
                     className="w-full h-full object-cover"
-                    src={comment?.user?.imageUrl}
+                    src={comment?.user?.photo}
                     alt="avatar"
                   />
                 </div>

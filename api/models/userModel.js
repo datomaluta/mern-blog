@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
+    default:
+      "https://firebasestorage.googleapis.com/v0/b/mern-blog-96365.appspot.com/o/17188861289571000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg?alt=media&token=c70cc36d-af21-450e-b156-6ea02d43d96d",
   },
   role: {
     type: String,
@@ -50,12 +52,12 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.virtual("imageUrl").get(function () {
-  return `${process.env.API_URL}/images/${this.photo}`;
-});
+// userSchema.virtual("imageUrl").get(function () {
+//   return `${process.env.API_URL}/images/${this.photo}`;
+// });
 
-userSchema.set("toJSON", { virtuals: true });
-userSchema.set("toObject", { virtuals: true });
+// userSchema.set("toJSON", { virtuals: true });
+// userSchema.set("toObject", { virtuals: true });
 
 // this middleware happens before user save and it hashes password (only when password field is modified)
 userSchema.pre("save", async function (next) {

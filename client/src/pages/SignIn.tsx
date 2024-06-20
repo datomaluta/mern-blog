@@ -2,7 +2,6 @@ import signupImage from "./../assets/images/signupImage.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { CiUnlock } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import { signin } from "../services/auth";
 import { useForm } from "react-hook-form";
 import { ImSpinner3 } from "react-icons/im";
@@ -15,6 +14,7 @@ import ForgotPasswordForm from "../components/signinComponents/ForgotPasswordFor
 import ModalWrapper from "../components/uiComponents/ModalWrapper";
 import { AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
+import OAuth from "../components/signinComponents/OAuth";
 
 const SignIn = () => {
   const [formErrors, setFormErrors] = useState<any[]>([]);
@@ -166,10 +166,7 @@ const SignIn = () => {
             Or sign in with
           </p>
 
-          <button className="flex gap-2 items-center border border-zinc-300 dark:border-zinc-600 p-2 rounded-lg mx-auto mt-3 hover:bg-dark-gray hover:dark:bg-dark-gray-shade hover:text-white hover: transition-all">
-            <FcGoogle />
-            Google
-          </button>
+          <OAuth />
 
           <p className="dark:text-zinc-400 text-sm text-center mt-7 flex gap-2 justify-center">
             Don't have an account?

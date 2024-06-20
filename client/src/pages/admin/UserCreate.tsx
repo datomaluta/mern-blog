@@ -1,5 +1,4 @@
 import "react-quill/dist/quill.snow.css";
-import { userFormArray } from "../../data/formArray";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -12,12 +11,11 @@ type FormData = {
   username: string;
   email: string;
   role: string;
-  password: FileList;
-  photo: FileList;
+  password: string;
+  photo: string;
 };
 
 const UserCreate = () => {
-  const formData = new FormData();
   const navigate = useNavigate();
   const [apiError, setApiError] = useState("");
 
@@ -38,24 +36,7 @@ const UserCreate = () => {
     },
   });
   const submitHandler = (data: FormData) => {
-    userFormArray.forEach((field: { name: string }) => {
-      if (field.name === "photo") {
-        if (data[field.name]) {
-          formData.append(field.name, data["photo"][0]);
-        }
-      } else {
-        formData.append(
-          field.name,
-          data[field.name as keyof FormData] as string
-        );
-      }
-    });
-    formData.append(
-      "passwordConfirm",
-      data["password" as keyof FormData] as string
-    );
-
-    mutate(formData);
+    mutate({ ...data, passwordConfirm: data.password });
   };
 
   return (

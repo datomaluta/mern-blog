@@ -153,7 +153,7 @@ const Header = () => {
                 // src={`${import.meta.env.VITE_API_BASE_URL}/images/${
                 //   currentUser.photo
                 // }`}
-                src={currentUser?.imageUrl}
+                src={currentUser?.photo}
                 alt="avatar"
               />
             </button>
@@ -190,7 +190,7 @@ const Header = () => {
                 // src={`${import.meta.env.VITE_API_BASE_URL}/images/${
                 //   currentUser.photo
                 // }`}
-                src={currentUser?.imageUrl}
+                src={currentUser?.photo}
                 alt="avatar"
               />
             </button>

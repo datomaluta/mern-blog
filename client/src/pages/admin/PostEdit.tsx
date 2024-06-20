@@ -1,5 +1,4 @@
 import "react-quill/dist/quill.snow.css";
-import { postFormArray } from "../../data/formArray";
 import { updatePost } from "../../services/post";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,16 +6,16 @@ import { useMutation } from "@tanstack/react-query";
 import PostForm from "../../components/postComponents/PostForm";
 import { useState } from "react";
 import { Alert } from "flowbite-react";
+import { removeEmpty } from "../../helpers/objectFunctions";
 
 type FormData = {
   title: string;
   category: string;
-  image: FileList;
+  image: string;
   content: string;
 };
 
 const PostEdit = () => {
-  const formData = new FormData();
   const navigate = useNavigate();
   const { id } = useParams();
   const [apiError, setApiError] = useState("");
@@ -38,21 +37,8 @@ const PostEdit = () => {
     },
   });
   const submitHandler = (data: FormData) => {
-    postFormArray.forEach((field: { name: string }) => {
-      if (field.name === "image") {
-        if (data["image"][0]) {
-          formData.append(field.name, data["image"][0]);
-        }
-      } else {
-        formData.append(
-          field.name,
-          data[field.name as keyof FormData] as string
-        );
-      }
-    });
-
     mutate({
-      data: formData,
+      data: removeEmpty(data) as FormData,
       id: id as string,
     });
   };

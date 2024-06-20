@@ -36,7 +36,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    photo: "/avatar.jpg",
+    // photo: "/avatar.jpg",
   });
 
   createSendToken(newUser, 201, req, res);
@@ -231,3 +231,27 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+exports.googleLogin = catchAsync(async (req, res, next) => {
+  const { email, name, googlePhotoUrl } = req.body;
+  const user = await User.findOne({ email });
+  if (user) {
+    createSendToken(user, 200, req, res);
+  } else {
+    const generatedPassword =
+      Math.random().toString(36).slice(-8) +
+      Math.random().toString(36).slice(-8);
+
+    const newUser = new User({
+      username:
+        name.toLowerCase().split(" ").join("") +
+        Math.random().toString(9).slice(-4),
+      email,
+      password: generatedPassword,
+      passwordConfirm: generatedPassword,
+      photo: googlePhotoUrl,
+    });
+    await newUser.save();
+    createSendToken(newUser, 200, req, res);
+  }
+});

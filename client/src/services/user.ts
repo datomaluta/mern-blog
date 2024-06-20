@@ -1,7 +1,11 @@
-import { instance, instanceForMultipart } from "./axios";
+import { instance } from "./axios";
 
-export const updateMe = (data: FormData) => {
-  return instanceForMultipart.put(`/users/updateMe`, data);
+export const updateMe = (data: {
+  username: string;
+  email: string;
+  photo: string;
+}) => {
+  return instance.put(`/users/updateMe`, data);
 };
 
 export const updateMyPassword = (data: {
@@ -34,10 +38,23 @@ export const getUserById = (id: string) => {
   return instance.get(`/users/users/${id}`);
 };
 
-export const createUser = (data: FormData) => {
-  return instanceForMultipart.post(`/users/users/create`, data);
+export const createUser = (data: {
+  username: string;
+  email: string;
+  photo: string;
+  role: string;
+  password: string;
+  passwordConfirm: string;
+}) => {
+  return instance.post(`/users/users/create`, data);
 };
 
-export const updateUser = ({ data, id }: { data: FormData; id: string }) => {
-  return instanceForMultipart.put(`/users/users/${id}`, data);
+export const updateUser = ({
+  data,
+  id,
+}: {
+  data: { username: string; email: string; photo: string; role: string };
+  id: string;
+}) => {
+  return instance.put(`/users/users/${id}`, data);
 };

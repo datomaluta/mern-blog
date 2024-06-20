@@ -5,7 +5,6 @@ type currentUserType = {
   username: string;
   email: string;
   role: string;
-  imageUrl: string;
   _id: string;
 };
 

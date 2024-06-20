@@ -8,6 +8,10 @@ export const signin = async (data: any) => {
   return await instance.post("/users/signin", data);
 };
 
+export const googleAuth = async (data: any) => {
+  return await instance.post("/users/google", data);
+};
+
 export const signout = async () => {
   return await instance.get("/users/logout");
 };
