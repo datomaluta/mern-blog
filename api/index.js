@@ -23,26 +23,15 @@ mongoose
     console.log(err);
   });
 
+const __dirname = path.resolve();
+
 const app = express();
-
-// app.use(express.static("public"));
-// app.use("/images", express.static("images"));
-
-// app.enable("trust proxy");
-
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: "http://localhost:5173",
-//   })
-// );
-// app.options("*", cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
@@ -59,6 +48,12 @@ app.get("/api/test", (req, res) => {
 });
 app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+});
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 app.use(globalErrorHandler);
