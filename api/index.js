@@ -23,7 +23,7 @@ mongoose
     console.log(err);
   });
 
-__dirname = path.resolve();
+// __dirname = path.resolve();
 
 const app = express();
 
@@ -48,7 +48,7 @@ app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(express.static(path.join(__dirname, "client", "dist")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
