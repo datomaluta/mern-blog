@@ -35,18 +35,13 @@ app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
 
-// Stripe webhook, BEFORE body-parser, because stripe needs the body as stream
-// app.post("/webhook-checkout", bodyParser.raw({ type: "application/json" }));
-
 app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
-app.get("/api/test", (req, res) => {
-  res.json({ message: "API is working!" });
-});
-app.use("*", (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
-});
+
+// app.use("*", (req, res, next) => {
+//   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+// });
 
 app.use(express.static(path.join(__dirname, "client", "dist")));
 
