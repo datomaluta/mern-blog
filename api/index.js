@@ -43,7 +43,7 @@ app.use("/api/comments", commentRouter);
 //   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 // });
 
-app.use(express.static(path.join(__dirname, "client", "dist")));
+app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
