@@ -170,8 +170,33 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     await sendEmail({
       email: user.email,
       subject: "Your password reset token (valid for 10 min)",
-      // message,
-      html: `<a href="${process.env.CLIENT_URL}/reset-password/${resetToken}">hello</a>`,
+
+      html: `<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Password Reset</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+  <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #333333;">Password Reset Request</h2>
+    <p style="color: #666666; font-size: 16px;">
+      You have requested to reset your password. Please click the button below to reset your password:
+    </p>
+    <p style="text-align: center;">
+      <a href="${process.env.CLIENT_URL}/reset-password/${resetToken}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+        Reset Password
+      </a>
+    </p>
+    <p style="color: #666666; font-size: 16px;">
+      If you did not request a password reset, please ignore this email. This link will expire in 10 minutes.
+    </p>
+    <p style="color: #666666; font-size: 16px;">
+      Thank you,<br>
+      The Meta blog Team
+    </p>
+  </div>
+</body>
+</html>`,
     });
 
     res.status(200).json({

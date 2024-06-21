@@ -30,9 +30,6 @@ const AllPosts = () => {
   });
   const queryString = urlParams?.toString();
 
-  console.log(queryString);
-  console.log(query);
-
   const {
     data: posts,
     fetchNextPage,
@@ -126,7 +123,7 @@ const AllPosts = () => {
           </div>
           <button
             onClick={filterHandler}
-            className="bg-light-purple px-10 py-2 rounded-lg md:w-full font-bold"
+            className="bg-light-purple px-10 py-2 rounded-lg md:w-full font-bold text-white"
           >
             Filter
           </button>
@@ -143,7 +140,7 @@ const AllPosts = () => {
             <div className="grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 gap-5">
               {posts?.pages?.map((posts: PostType[]) =>
                 posts?.map((post: PostType) => (
-                  <PostCard key={post.id} post={post} />
+                  <PostCard key={post._id} post={post} />
                 ))
               )}
             </div>

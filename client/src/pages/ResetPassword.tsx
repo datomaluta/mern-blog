@@ -1,5 +1,4 @@
 import { useForm, useWatch } from "react-hook-form";
-import { useMutation } from "react-query";
 import { resetPassword } from "../services/auth";
 import { CiLock, CiUnlock } from "react-icons/ci";
 import { ImSpinner3 } from "react-icons/im";
@@ -10,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../redux/user/userSlice";
+import { useMutation } from "@tanstack/react-query";
 
 const ResetPassword = () => {
   const { resetToken } = useParams();
@@ -31,7 +31,7 @@ const ResetPassword = () => {
   const passwordInput = useWatch({ name: "password", control });
   const passwordConfirmInput = useWatch({ name: "passwordConfirm", control });
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: resetPassword,
     onSuccess: (data: any) => {
       reset();
@@ -109,7 +109,7 @@ const ResetPassword = () => {
           </div>
 
           <button className="submit-button  max-w-80 sm:max-w-full">
-            {isLoading ? (
+            {isPending ? (
               <ImSpinner3 className="animate-spin text-xl" />
             ) : (
               "Sign in"

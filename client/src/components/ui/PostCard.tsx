@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { formatDate } from "../../helpers/dateFunctions";
 import { PostType } from "../../types/post";
+import LazyImageDisplay from "./LazyImageDisplay";
 
 const PostCard = ({ post }: { post: PostType }) => {
   return (
@@ -9,12 +10,13 @@ const PostCard = ({ post }: { post: PostType }) => {
       key={post.id}
       className="p-4 border dark:border-dark-gray-tint border-white-shade rounded-xl flex flex-col hover:dark:bg-dark-gray-tint hover:bg-white-shade transition-all duration-300 group"
     >
-      <div className="object-cover rounded-xl overflow-hidden max-w-[360px] h-[50%] max-h-[15rem] lg:max-w-full mb-4">
-        <img
+      <div className="object-cover rounded-xl overflow-hidden max-w-[360px] max-h-[15rem] h-[15rem] sm:h-[12rem] lg:max-w-full mb-4">
+        <LazyImageDisplay imageUrl={post.image} alt={post.title} />
+        {/* <img
           className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
           src={post.image}
           alt={post.title}
-        />
+        /> */}
       </div>
 
       <p className="dark:bg-light-purple bg-white-shade dark:bg-opacity-10 bg-opacity-70 mb-4 w-max px-3 py-1 rounded-md text-sm md:text-xs text-light-purple">

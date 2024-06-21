@@ -129,7 +129,7 @@ const PostForm = ({
             type="file"
           />
 
-          <div className="border-dashed border-2 border-zinc-600 rounded-lg px-2 py-4 w-full h-56 ">
+          <div className="border-dashed border-2  dark:border-zinc-600 border-zinc-200 rounded-lg px-2 py-4 w-full h-56 ">
             <label
               htmlFor="image"
               className="flex items-center gap-1 bg-light-purple p-2 rounded-lg mx-auto text-sm mb-4 cursor-pointer w-max"

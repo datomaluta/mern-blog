@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { MdOutlineEmail } from "react-icons/md";
-import { useMutation } from "react-query";
 import { forgotPassword } from "../../services/auth";
 import { ImSpinner3 } from "react-icons/im";
 import { Alert } from "flowbite-react";
 import toast from "react-hot-toast";
 import { Dispatch, SetStateAction } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 const ForgotPasswordForm = ({
   setModalIsOpen,
@@ -18,7 +18,7 @@ const ForgotPasswordForm = ({
     formState: { errors },
   } = useForm();
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: forgotPassword,
     onSuccess: () => {
       toast.success("Reset email sent succesfully!");
@@ -57,7 +57,7 @@ const ForgotPasswordForm = ({
       </div>
 
       <button className="submit-button  max-w-80 sm:max-w-full">
-        {isLoading ? <ImSpinner3 className="animate-spin text-xl" /> : "Submit"}
+        {isPending ? <ImSpinner3 className="animate-spin text-xl" /> : "Submit"}
       </button>
 
       {errors?.email?.message ? (

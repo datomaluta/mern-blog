@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { formatDate } from "../../helpers/dateFunctions";
 import { PostType } from "../../types/post";
 import { Link } from "react-router-dom";
+import LazyImageDisplay from "../ui/LazyImageDisplay";
 
 const MainPost = ({ post }: { post: PostType }) => {
   return (
@@ -12,14 +13,21 @@ const MainPost = ({ post }: { post: PostType }) => {
     >
       <Link to={`/posts/${post?.slug}`}>
         <div className="relative">
-          <div className="bg-red-500 rounded-xl overflow-hidden">
-            <img
-              className="w-full object-cover max-h-[37.5rem]"
+          <div
+            className={`dark:bg-dark-gray-tint bg-white-shade rounded-xl overflow-hidden h-[37.5rem] lg:h-[28rem] md:h-[25rem] sm:h-[17rem]`}
+          >
+            <LazyImageDisplay imageUrl={post?.image} alt={post?.title} />
+            {/* <motion.img
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="w-full object-cover h-full"
               src={post?.image || ""}
               alt={post?.title || ""}
-            />
+              onLoad={() => setIsFetching(false)}
+            /> */}
           </div>
-          <div className="dark:bg-dark-gray-shade bg-white shadow-lg w-[37.5rem] lg:w-[28rempx] md:w-[25rem] absolute -bottom-[64px] left-[5%] rounded-xl p-10 lg:p-6 md:p-4 sm:relative sm:-bottom-0 sm:left-0 sm:w-[90%] sm:mx-auto sm:p-4 sm:h-auto sm:mt-4  sm:shadow-all-sides sm:-translate-y-[5rem] group-hover:-translate-y-4 transition-all duration-300">
+          <div className="dark:bg-dark-gray-shade bg-white shadow-lg w-[37.5rem] lg:w-[28rempx] md:w-[25rem] absolute -bottom-[64px] left-[5%] rounded-xl p-10 lg:p-6 md:p-4 sm:relative sm:-bottom-0 sm:left-0 sm:w-[90%] sm:mx-auto sm:p-4 sm:h-auto sm:mt-4 sm:shadow-all-sides sm:-translate-y-[5rem] group-hover:-translate-y-[4rem] transition-all duration-300">
             <p className="bg-light-purple w-max px-3 py-1 rounded-md text-sm md:text-xs text-white">
               {post?.category}
             </p>
