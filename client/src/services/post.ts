@@ -1,4 +1,4 @@
-import { instance, instanceForMultipart } from "./axios";
+import { instance } from "./axios";
 
 // export const getPosts = (query?: string) => {
 //   return instance.get(`/posts?${query ? query : ""}`);
@@ -26,7 +26,7 @@ export const createPost = (data: {
   image: string;
   content: string;
 }) => {
-  return instanceForMultipart.post("/posts", data);
+  return instance.post("/posts", data);
 };
 
 export const deletePost = (id: string) => {
@@ -45,5 +45,5 @@ export const updatePost = ({
     content: string;
   };
 }) => {
-  return instanceForMultipart.put(`/posts/${id}`, data);
+  return instance.put(`/posts/${id}`, data);
 };
