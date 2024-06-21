@@ -23,7 +23,7 @@ mongoose
     console.log(err);
   });
 
-// __dirname = path.resolve();
+__dirname = path.resolve();
 
 const app = express();
 
