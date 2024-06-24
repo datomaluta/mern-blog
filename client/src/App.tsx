@@ -24,6 +24,7 @@ import RestrictedRoute from "./components/sharedComponents/RestrictedRoute";
 import Dashboard from "./pages/admin/Dashboard";
 import Comments from "./pages/admin/Comments";
 import CommentEdit from "./pages/admin/CommentEdit";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/posts/:slug" element={<SinglePost />} />
