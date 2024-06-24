@@ -59,7 +59,7 @@ const CommentSection = ({ post }: { post: PostType }) => {
       if (!post) {
         return Promise.resolve([]);
       }
-      return getPostComments({ page: pageParam, postId: post.id })?.then(
+      return getPostComments({ page: pageParam, postId: post._id })?.then(
         (res) => res.data?.data?.comments
       );
     },

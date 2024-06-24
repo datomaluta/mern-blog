@@ -70,7 +70,7 @@ const Contact = () => {
                   Mobile: +1 (123) 456-7890
                 </p>
                 <p className="text-gray-600 dark:text-slate-400">
-                  Mail: tailnext@gmail.com
+                  email: metablog@gmail.com
                 </p>
               </div>
             </li>

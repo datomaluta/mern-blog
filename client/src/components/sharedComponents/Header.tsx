@@ -118,7 +118,7 @@ const Header = () => {
               "dark:border-white border-zinc-700border-white"
             }`}
           >
-            <Link to={"/"}>Contact</Link>
+            <Link to={"/contact"}>Contact</Link>
           </li>
         </ul>
 
@@ -215,10 +215,10 @@ const Header = () => {
                     <Link to={"/"}>Home</Link>
                   </li>
                   <li className="border-b border-zinc-600 pb-2">
-                    <Link to={"/"}>All Posts</Link>
+                    <Link to={"/posts"}>All Posts</Link>
                   </li>
                   <li className="border-b border-zinc-600 pb-2">
-                    <Link to={"/"}>Contact</Link>
+                    <Link to={"/contact"}>Contact</Link>
                   </li>
                   <li className="border-b border-zinc-600 pb-2">
                     <Link className="flex gap-2" to={"/"}>
