@@ -94,7 +94,7 @@ const CommentSection = ({ post }: { post: PostType }) => {
   const submitHandler = (data: CommentFormData) => {
     createCommentMutation({
       content: data.content,
-      postId: post?.id as string,
+      postId: post?._id as string,
       userId: currentUser?._id as string,
     });
   };
