@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   photo: {
     type: String,
     default:
-      "https://firebasestorage.googleapis.com/v0/b/mern-blog-96365.appspot.com/o/17188861289571000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg?alt=media&token=c70cc36d-af21-450e-b156-6ea02d43d96d",
+      "https://firebasestorage.googleapis.com/v0/b/mern-blog-96365.appspot.com/o/avatar.jpg?alt=media&token=67569f0a-b5ab-453e-893b-bd38703d689b",
   },
   role: {
     type: String,

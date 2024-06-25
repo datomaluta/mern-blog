@@ -48,12 +48,6 @@ const Header = () => {
     queryKey: ["logout"],
     queryFn: signout,
 
-    // onSuccess: () => {
-    // dispatch(saveUserInfo(null));
-    // setMobileHeaderIsOpen(false);
-    // setProfileDropdownIsOpen(false);
-    // },
-
     enabled: false,
   });
 

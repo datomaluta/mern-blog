@@ -177,7 +177,7 @@ const PostForm = ({
             value={editorContent}
           />
           <p className="text-sm text-red-500 mt-1 h-2">
-            {errors.category?.message}
+            {errors.content?.message}
           </p>
         </div>
         <button className="submit-button sm:max-w-full !mt-14">

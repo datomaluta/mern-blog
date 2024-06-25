@@ -34,8 +34,8 @@ const SignIn = () => {
   const { mutate: signinMutation, isPending: signinLoading } = useMutation({
     mutationFn: signin,
     onSuccess: (response) => {
-      navigate("/");
       dispatch(saveUserInfo(response?.data?.data?.user));
+      navigate("/");
     },
     onError: (err: any) => {
       if (err?.response?.data?.message) {

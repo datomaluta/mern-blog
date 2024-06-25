@@ -32,7 +32,6 @@ const useUploadImage = (app: any) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setImageFileUploadProgress(parseInt(progress.toFixed(0), 10));
-          console.log(progress.toFixed(0));
         },
         () => {
           setImageFileUploadError(
