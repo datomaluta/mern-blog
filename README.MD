@@ -33,11 +33,11 @@ Unauthorized users will be redirected to the login page. The site will support d
 
 ### Tech Stack
 
-- [React @18.2.0] - Front-end framework
+- [React] - Front-end framework
 - [Typescript] - JavaScript with syntax for types
 - [@tanstack/react-query] - Powerful asynchronous state management for TS/JS.
-- [Tailwind CSS @3.4.2] - CSS framework
-- [React Hook Form @7.51.3] - library for form validation
+- [Tailwind CSS] - CSS framework
+- [React Hook Form] - library for form validation
 
 - [Node.js / Express.js] - Back-end
 - [MongoDB, mongoose] - Database
