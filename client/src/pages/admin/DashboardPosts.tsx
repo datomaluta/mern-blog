@@ -10,7 +10,7 @@ import { MdEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoAddCircleSharp } from "react-icons/io5";
 import toast from "react-hot-toast";
-import ModalWrapper from "../../components/uiComponents/ModalWrapper";
+import ModalWrapper from "../../components/ui/ModalWrapper";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";

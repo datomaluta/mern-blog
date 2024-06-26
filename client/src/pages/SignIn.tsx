@@ -11,7 +11,7 @@ import { getObjectLength } from "../helpers/objectFunctions";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../redux/user/userSlice";
 import ForgotPasswordForm from "../components/signinComponents/ForgotPasswordForm";
-import ModalWrapper from "../components/uiComponents/ModalWrapper";
+import ModalWrapper from "../components/ui/ModalWrapper";
 import { AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
 import OAuth from "../components/signinComponents/OAuth";

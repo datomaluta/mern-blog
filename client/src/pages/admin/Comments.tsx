@@ -7,7 +7,7 @@ import { MdEdit } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { AnimatePresence } from "framer-motion";
-import ModalWrapper from "../../components/uiComponents/ModalWrapper";
+import ModalWrapper from "../../components/ui/ModalWrapper";
 import { deleteComment, getAllComments } from "../../services/comments";
 import { CommentType } from "../../types/comment";
 import { textTrimmer } from "../../helpers/stringFunctions";

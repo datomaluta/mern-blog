@@ -23,7 +23,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { BiSolidLike } from "react-icons/bi";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import moment from "moment";
-import ModalWrapper from "../uiComponents/ModalWrapper";
+import ModalWrapper from "../ui/ModalWrapper";
 import CommentEditForm from "./CommentEditForm";
 
 type CommentFormData = {

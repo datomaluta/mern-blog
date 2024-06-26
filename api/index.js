@@ -39,10 +39,6 @@ app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
 
-// app.use("*", (req, res, next) => {
-//   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
-// });
-
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res) => {
@@ -50,10 +46,3 @@ app.get("*", (req, res) => {
 });
 
 app.use(globalErrorHandler);
-
-// app.use(globalErrorHandler);
-
-// datomaluta
-// 7U9jf9ehrOGTnJ0U
-
-// mongodb+srv://datomaluta:7U9jf9ehrOGTnJ0U@mern-blog.buhnglk.mongodb.net/?retryWrites=true&w=majority&appName=mern-blog
