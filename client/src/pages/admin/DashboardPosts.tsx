@@ -59,7 +59,7 @@ const DashboardPosts = () => {
             </h3>
             <div className="mt-auto flex gap-4 justify-around">
               <button
-                onClick={() => deleteMutation(chosenItem?.id)}
+                onClick={() => deleteMutation(chosenItem?._id)}
                 className="bg-light-purple px-4 py-1 rounded-lg"
               >
                 {isDeletingLoading ? <LoadingSpinner /> : "Yes"}
@@ -109,7 +109,7 @@ const DashboardPosts = () => {
                   <Table.Cell>{post.category}</Table.Cell>
                   <Table.Cell className="flex gap-3">
                     <Link
-                      to={`/dashboard/posts/edit/${post.id}`}
+                      to={`/dashboard/posts/edit/${post?._id}`}
                       className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 border border-cyan-600 p-2 rounded-full"
                     >
                       <MdEdit />

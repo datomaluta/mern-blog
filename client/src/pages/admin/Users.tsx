@@ -51,7 +51,7 @@ const Users = () => {
             </h3>
             <div className="mt-auto flex gap-4 justify-around">
               <button
-                onClick={() => deleteMutation(chosenItem?.id)}
+                onClick={() => deleteMutation(chosenItem?._id)}
                 className="bg-light-purple px-4 py-1 rounded-lg"
               >
                 {isDeletingLoading ? <LoadingSpinner /> : "Yes"}

@@ -7,7 +7,7 @@ const PostCard = ({ post }: { post: PostType }) => {
   return (
     <Link
       to={`/posts/${post.slug}`}
-      key={post.id}
+      key={post?._id}
       className="p-4 border dark:border-dark-gray-tint border-white-shade rounded-xl flex flex-col hover:dark:bg-dark-gray-tint hover:bg-white-shade transition-all duration-300 group"
     >
       <div className="object-cover rounded-xl overflow-hidden max-w-[360px] max-h-[15rem] h-[15rem] sm:h-[12rem] lg:max-w-full mb-4">
