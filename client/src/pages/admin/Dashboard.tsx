@@ -70,7 +70,11 @@ const Dashboard = () => {
               <FaNewspaper className="w-5 h-5 text-white" />
             </span>
           </div>
-          <p className="text-2xl font-bold">{postsData?.total}</p>
+          <p className="text-2xl font-bold">
+            {currentUser?.role === "admin"
+              ? postsData?.total
+              : postsData?.posts?.length}
+          </p>
 
           <Link
             to={"/dashboard/posts"}

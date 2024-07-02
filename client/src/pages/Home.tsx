@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
   const { data: posts, isLoading: postsLoading } = useQuery<PostType[]>({
-    queryKey: ["posts"],
+    queryKey: ["posts-home"],
     queryFn: () => getPosts({ page: 1 }).then((res) => res.data?.data?.posts),
   });
 

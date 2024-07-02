@@ -35,7 +35,6 @@ const sendErrorDev = (err, req, res) => {
 };
 
 const sendErrorProd = (err, req, res) => {
-  console.log(err.isOperational);
   if (err.isOperational) {
     return res.status(err.statusCode).json({
       status: err.status,
@@ -56,12 +55,9 @@ module.exports = (err, req, res, next) => {
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === "production") {
-    console.log(err.constructor.name);
     let error = { ...err };
-    console.log(error.constructor.name);
 
     error.message = err.message;
-    // console.log(error.message);
 
     if (err.constructor.name === "CastError") error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);

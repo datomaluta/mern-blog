@@ -8,15 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import DarkModeSwitcher from "../ui/DarkModeSwitcher";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useEffect, useRef, useState } from "react";
-// import { FaUserCircle } from "react-icons/fa";
+import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
 import { signout } from "../../services/auth";
 import { saveUserInfo } from "../../redux/user/userSlice";
 import { ImSpinner3 } from "react-icons/im";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const { theme } = useSelector((state: RootState) => state.theme);
@@ -40,24 +40,17 @@ const Header = () => {
     if (window.innerWidth < 800) setProfileDropdownIsOpen(false);
   });
 
-  const {
-    refetch: logout,
-    isLoading: logoutLoading,
-    isSuccess: logoutIsSuccess,
-  } = useQuery({
-    queryKey: ["logout"],
-    queryFn: signout,
-
-    enabled: false,
-  });
-
-  useEffect(() => {
-    if (logoutIsSuccess) {
+  const { mutate: logout, isPending: logoutLoading } = useMutation({
+    mutationFn: signout,
+    onSuccess: () => {
       dispatch(saveUserInfo(null));
       setMobileHeaderIsOpen(false);
       setProfileDropdownIsOpen(false);
-    }
-  }, [logoutIsSuccess, dispatch]);
+    },
+    onError: () => {
+      toast.error("Something went wrong with logout");
+    },
+  });
 
   const urlParams = new URLSearchParams(location.search);
 
@@ -73,9 +66,9 @@ const Header = () => {
     <header className="dark:bg-dark-gray-shade dark:bg-opacity-95 bg-white-shade bg-opacity-95 backdrop-blur-sm sticky top-0 1 py-6  md:py-4 z-30">
       <div
         className={`flex items-center  relative justify-between xl:px-4 md:px-3 w-full 
-       md:text-sm  ${
-         pathname.includes("dashboard") ? "px-4" : "max-w-[75.3rem] mx-auto"
-       }`}
+   md:text-sm  ${
+     pathname.includes("dashboard") ? "px-4" : "max-w-[75.3rem] mx-auto"
+   }`}
       >
         <Link to={"/"}>
           <img
@@ -123,7 +116,7 @@ const Header = () => {
               type="text"
               placeholder="Search"
               className="bg-zinc-100 dark:bg-dark-gray-tint w-[10.5rem] h-9 rounded-lg p-2 pr-8 outline-none text-sm
-          focus:ring-0 focus:border-zinc-400 border-1 border-transparent transition-all duration-300"
+      focus:ring-0 focus:border-zinc-400 border-1 border-transparent transition-all duration-300"
             />
             <button
               onClick={searchHandler}
@@ -152,7 +145,7 @@ const Header = () => {
             <Link
               to={"/signin"}
               className="border dark:border-zinc-600 border-gray-300 py-1 px-2 rounded-lg
-           hover:dark:bg-white hover:dark:text-zinc-700 transition-all duration-300 hover:bg-dark-gray-tint hover:text-white "
+       hover:dark:bg-white hover:dark:text-zinc-700 transition-all duration-300 hover:bg-dark-gray-tint hover:text-white "
             >
               Sign in
             </Link>
@@ -186,7 +179,7 @@ const Header = () => {
             <Link
               to={"/signin"}
               className="border dark:border-zinc-600 border-gray-300 py-1 px-2 rounded-lg
-           hover:dark:bg-white hover:dark:text-zinc-700 transition-all duration-300 hover:bg-dark-gray-tint hover:text-white "
+       hover:dark:bg-white hover:dark:text-zinc-700 transition-all duration-300 hover:bg-dark-gray-tint hover:text-white "
             >
               Sign in
             </Link>
@@ -261,7 +254,9 @@ const Header = () => {
                 </Link>
               </div>
               <button
-                onClick={() => logout()}
+                onClick={() => {
+                  logout();
+                }}
                 className="px-2 py-3 dark:hover:bg-gray-500 hover:bg-gray-300  w-full text-left flex items-center gap-2"
               >
                 Sign out
@@ -274,5 +269,4 @@ const Header = () => {
     </header>
   );
 };
-
 export default Header;

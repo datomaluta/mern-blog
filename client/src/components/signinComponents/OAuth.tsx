@@ -28,7 +28,6 @@ const OAuth = () => {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
     const resultsFromGoogle = await signInWithPopup(auth, provider);
-    console.log(resultsFromGoogle);
     googleAuthMutate({
       name: resultsFromGoogle.user.displayName,
       email: resultsFromGoogle.user.email,

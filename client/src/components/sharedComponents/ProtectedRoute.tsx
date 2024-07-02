@@ -4,7 +4,6 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
-  console.log(currentUser)
   return currentUser ? <Outlet /> : <Navigate to={"/signin"} />;
 };
 

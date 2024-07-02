@@ -72,8 +72,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     runValidators: true,
   });
 
-  // console.log(filteredBody);
-
   res.status(200).json({
     status: "success",
     data: {

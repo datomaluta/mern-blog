@@ -41,7 +41,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 exports.signin = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   // 1) Extract email and password from body
   const { email, password } = req.body;
 
@@ -88,8 +87,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
-  // console.log(req.cookies);
-  // console.log("THIS IS TOKEN ", token);
 
   if (!token) {
     return next(
@@ -98,9 +95,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   // 2) Verification token
-  // console.log("decoded");
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  // console.log(decoded);
 
   // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);
@@ -128,7 +123,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   // 1) Get user from collection
-  console.log(req.body);
   const user = await User.findById(req.user.id).select("+password");
 
   // 2) Chech if posted current password is correct
@@ -217,7 +211,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on the token
-  console.log(req.body);
   const hashedToken = crypto
     .createHash("sha256")
     .update(req.params.token)
